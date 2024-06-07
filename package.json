@@ -1,0 +1,20 @@
+{
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.2.12",
+    "vite-plugin-full-reload": "^1.1.0",
+    "vite-plugin-ruby": "^5.0.0",
+    "vite-plugin-stimulus-hmr": "^3.0.0"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@tiptap/extension-placeholder": "^2.4.0",
+    "@tiptap/pm": "^2.4.0",
+    "@tiptap/react": "^2.4.0",
+    "@tiptap/starter-kit": "^2.4.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
+  }
+}

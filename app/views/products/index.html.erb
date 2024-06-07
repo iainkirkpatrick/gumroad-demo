@@ -1,0 +1,61 @@
+<header class="py-12 px-16 flex flex-col gap-4 w-full">
+  <div class="flex justify-between w-full">
+    <h1 class="text-[40px]">Products</h1>
+    <div class="flex gap-4">
+      <button class="flex flex-col items-center justify-center w-12 h-12 border border-black rounded-md">
+        <span class="icon-solid-search"></span>
+      </button>
+      <a
+        class="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md bg-[#FF90E8]"
+        href="/products/new"
+      >New product</a>
+    </div>
+  </div>
+  <div class="flex gap-4 w-full">
+    <a class="py-2 px-4 border border-black rounded-full bg-white">
+      All products
+    </a>
+    <a class="py-2 px-4">
+      Affiliated
+    </a>
+    <a class="py-2 px-4">
+      Collabs
+    </a>
+  </div>
+</header>
+<div class="py-12 px-16 border-t border-black">
+  <% @products_by_native_type.each do |native_type, products| %>
+    <div class="flex flex-col gap-4">
+      <h2 class="text-2xl"><%= native_type.capitalize %></h2>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="text-left text-sm">Name</th>
+            <th class="text-left text-sm">Price</th>
+            <th class="text-left text-sm">Published</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.each do |product| %>
+            <tr class="bg-white border border-black rounded-md">
+              <td class="p-4 flex flex-col">
+                <a class="font-bold" href="/products/<%= product.public_id %>/edit">
+                  <%= product.name %>
+                </a>
+                <a class="text-sm" href="/products/<%= product.public_id %>/edit">
+                  <%= product.public_id %>
+                </a>
+              </td>
+              <td>
+                <%= product.price_range %>
+              </td>
+              <td>
+                <%= product.is_published %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
