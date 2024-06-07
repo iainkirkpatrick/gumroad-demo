@@ -14,8 +14,6 @@
  *= require_self
  */
 
-@import "font-awesome";
-
 html, body {
   width: 100%;
   height: 100%;
@@ -23,17 +21,17 @@ html, body {
 
 @font-face {
   font-family: 'Mabry Pro';
-  src: asset-url('MabryPro-Regular.woff2') format('woff2'),
-       asset-url('MabryPro-Regular.woff') format('woff'),
-       asset-url('MabryPro-Regular.ttf') format('truetype');
+  src: url('/assets/MabryPro-Regular.woff2') format('woff2'),
+       url('/assets/MabryPro-Regular.woff') format('woff'),
+       url('/assets/MabryPro-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Mabry Pro';
-  src: asset-url('MabryPro-Bold.woff2') format('woff2'),
-       asset-url('MabryPro-Bold.woff') format('woff'),
-       asset-url('MabryPro-Bold.ttf') format('truetype');
+  src: url('/assets/MabryPro-Bold.woff2') format('woff2'),
+       url('/assets/MabryPro-Bold.woff') format('woff'),
+       url('/assets/MabryPro-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }

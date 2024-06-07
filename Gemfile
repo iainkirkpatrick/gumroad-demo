@@ -69,6 +69,3 @@ end
 gem "tailwindcss-rails", "~> 2.6"
 
 gem "vite_rails"
-
-gem "sassc-rails"
-gem "font-awesome-sass"
