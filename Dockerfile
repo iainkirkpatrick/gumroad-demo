@@ -21,6 +21,10 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config curl 
 
+# TEMP:
+# Verify libpq installation
+RUN ldconfig -p | grep libpq
+
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
