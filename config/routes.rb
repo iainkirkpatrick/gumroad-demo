@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  resources :purchases
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # updating a cart is possible from either the user subdomain or the main domain (checkout page)
+  resources :carts, only: [:update]
 
   # constraints subdomain: "test-user" do
   constraints subdomain: /.+/ do
@@ -11,6 +15,8 @@ Rails.application.routes.draw do
 
   constraints subdomain: "" do
     resources :products, param: :public_id, only: [:index, :new, :create, :edit, :update]
+
+    get '/checkout', to: 'carts#show', as: 'checkout'
 
     # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
     # Can be used by load balancers and uptime monitors to verify that the app is live.

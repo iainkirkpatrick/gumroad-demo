@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GumroadCalls</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= vite_client_tag %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_javascript_tag 'application' %>
+    <!--
+      If using a TypeScript entrypoint file:
+        vite_typescript_tag 'application'
+
+      If using a .jsx or .tsx entrypoint, add the extension:
+        vite_javascript_tag 'application.jsx'
+
+      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+    -->
+    <%= yield :page_specific_scripts %>
+
+  </head>
+
+  <body class="flex flex-col items-center w-full min-h-screen bg-[#f4f4f0]">
+    <nav class="py-8 flex flex-col items-center justify-between w-full border-b border-black">
+      <div class="flex items-center justify-between w-full max-w-6xl">
+        <h1 class="text-4xl">Checkout</h1>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <button
+              class="px-4 py-3 border border-black rounded-md"
+            >Continue shopping</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="flex flex-col w-full max-w-6xl">
+      <%= yield %>
+    </main>
+  </body>
+</html>

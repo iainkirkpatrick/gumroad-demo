@@ -44,6 +44,8 @@ class ProductsController < ApplicationController
       name: "testuser",
       products: Product.all
     }
+    # demo: find the first cart record (or create one) that is shared by all demo users
+    @cart = Cart.first_or_create
   end
 
   private

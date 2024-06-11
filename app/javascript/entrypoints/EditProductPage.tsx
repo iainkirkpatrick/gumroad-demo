@@ -51,6 +51,8 @@ function EditProductPage({
         product: pick({ ...editedProduct, ...vals }, ['name', 'description', 'price_range', 'rich_content', 'is_published', 'tiers'])
       })
     })
+    .then(res => res.json())
+    .then(res => console.log({ res }))
   }, [csrfToken, editedProduct, product.public_id]);
 
   const hash = window.location.hash;
