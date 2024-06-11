@@ -13,8 +13,8 @@ export default function EditProductDetails ({
   console.log({ product })
 
   return (
-    <div className="px-16 flex w-full h-full border-t border-black">
-      <form className="py-12 pr-16 flex flex-col gap-12 w-2/3 border-r border-black">
+    <div className="flex w-full h-full border-t border-black">
+      <form className="py-12 px-16 flex flex-col gap-12 w-2/3 border-r border-black">
         <section className="flex flex-col gap-4">
           <div className='flex flex-col gap-1'>
             <label>Name</label>
@@ -36,18 +36,20 @@ export default function EditProductDetails ({
           </div>
         </section>
         
-        <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
-          <h2 className="text-2xl">Pricing</h2>
-          <div className='flex flex-col gap-1'>
-            <label>Amount</label>
-            <input
-              className="py-2 px-4 border border-black rounded-md"
-              placeholder="Name"
-              value={product.price_range}
-              onChange={(e) => updateProduct({ price_range: e.target.value })}
-            />
-          </div>
-        </section>
+        {product.native_type !== 'coffee' && (
+          <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
+            <h2 className="text-2xl">Pricing</h2>
+            <div className='flex flex-col gap-1'>
+              <label>Amount</label>
+              <input
+                className="py-2 px-4 border border-black rounded-md"
+                placeholder="Name"
+                value={product.price_range}
+                onChange={(e) => updateProduct({ price_range: e.target.value })}
+              />
+            </div>
+          </section>
+        )}
 
         {product.native_type === 'coffee' && (
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
@@ -70,8 +72,8 @@ export default function EditProductDetails ({
         )}
       </form>
       
-      <aside className="py-12 flex flex-col w-1/3 bg-white">
-        <h2>Preview</h2>
+      <aside className="py-12 pl-8 pr-16 flex flex-col w-1/3 bg-white">
+        <h2 className='text-2xl'>Preview (not implemented)</h2>
       </aside>
     </div>
   )

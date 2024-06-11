@@ -8,4 +8,9 @@ class UserContentController < ApplicationController
       products: Product.all
     }
   end
+
+  def show
+    purchase = Purchase.find_by!(public_id: params[:public_id])
+    @product = purchase.product
+  end
 end

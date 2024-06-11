@@ -150,7 +150,7 @@ function NewProductForm() {
           <input
             name="product[price_range]"
             className="py-2 px-4 border border-black rounded-md"
-            placeholder='Price your product'
+            placeholder={productType === 'commissions' ? 'Price your initial deposit' : 'Price your product'}
           />
         </div>
       )}

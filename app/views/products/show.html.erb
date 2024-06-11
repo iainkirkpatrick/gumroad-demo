@@ -23,6 +23,7 @@
       <%= form_with url: cart_path(@cart), method: :patch, local: true do |form| %>
         <input type="hidden" name="cart[product_public_id]" value="<%= @product[:public_id] %>" />
         <input type="hidden" name="cart[add_product]" value="true" />
+        <input type="hidden" name="cart[redirect_after_update]" value="true" />
         <button
           type="submit"
           class="px-4 py-3 min-w-72 border border-black rounded-md bg-[#FF90E8]"

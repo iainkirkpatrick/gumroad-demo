@@ -24,7 +24,8 @@ class CartsController < ApplicationController
     respond_to do |format|
       format.html do
         if redirect_after_update
-          root_url = "#{request.protocol}#{root_domain}:#{request.port}/checkout"
+          port = ":#{request.port}" unless Rails.env.production? || Rails.env.staging?
+          root_url = "#{request.protocol}#{root_domain}#{port}/checkout"
           redirect_to root_url, allow_other_host: true
         else
           render :show
@@ -32,13 +33,6 @@ class CartsController < ApplicationController
       end
       format.json { render json: @cart, include: { cart_items: { include: :product } }, status: :ok }
     end
-
-    # if redirect_after_update
-    #   # Construct the full URL for redirection to the root domain with the correct port
-    #   root_url = "#{request.protocol}#{root_domain}:#{request.port}/checkout"
-    #   redirect_to root_url, allow_other_host: true
-    # else
-    # end
   end
 
   private
