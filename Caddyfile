@@ -1,0 +1,9 @@
+# Caddyfile
+
+http://test-user.localtest.me {
+    reverse_proxy web:3000
+}
+
+http://localtest.me {
+    reverse_proxy web:3000
+}

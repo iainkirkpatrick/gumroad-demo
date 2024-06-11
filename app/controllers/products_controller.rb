@@ -1,13 +1,11 @@
 class ProductsController < ApplicationController
   before_action :ensure_json_request, only: :update
+  layout :select_layout
 
   def index
     @products_by_native_type = Product.all.group_by(&:native_type)
   end
 
-  def show
-    @product = Product.find_by!(public_id: params[:public_id])
-  end
 
   def edit
     @product = Product.includes(:variants).find_by!(public_id: params[:public_id])
@@ -38,6 +36,16 @@ class ProductsController < ApplicationController
     end
   end
 
+  # show route used when viewing product under user subdomain
+  def show
+    @product = Product.find_by!(public_id: params[:public_id])
+    # example user data, including all products
+    @user = {
+      name: "testuser",
+      products: Product.all
+    }
+  end
+
   private
 
   def ensure_json_request
@@ -63,6 +71,15 @@ class ProductsController < ApplicationController
       puts "variant_data, #{variant_data.inspect}"
       variant = @product.variants.find_or_initialize_by(public_id: variant_data[:public_id])
       variant.update(variant_data.permit(:public_id, :name, :price))
+    end
+  end
+
+  def select_layout
+    case action_name
+    when "show"
+      "user_content"
+    else
+      "application"
     end
   end
 end

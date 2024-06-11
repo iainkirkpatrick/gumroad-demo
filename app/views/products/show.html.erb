@@ -1,26 +1,28 @@
-<header class="py-12 px-16 flex flex-col gap-4 w-full">
-  <div class="flex justify-between w-full">
-    <h1 class="text-[40px]"><%= @product.name.capitalize %></h1>
-    <div class="flex gap-2">
-      <button type="submit" form="new-product-form">Save and continue</button>
+<div class="py-16 flex flex-col">
+  <div class="flex border border-black rounded-md">
+    <div class="flex flex-col grow border-r border-black">
+      <div class="py-8 px-6 flex flex-col border-b border-black">
+        <h1 class="text-4xl"><%= @product[:name] %></h1>
+      </div>
+      <div class="flex items-center border-b border-black">
+        <div class="p-6 flex flex-col items-center border-r border-black">
+          <p>$<%= @product[:price_range] %></p>
+        </div>
+        <div class="p-6 flex flex-col items-center border-r border-black">
+          <p><%= @user[:name] %></p>
+        </div>
+        <div class="p-6 flex flex-col items-center">
+          <p>0 ratings</p>
+        </div>
+      </div>
+      <div class="p-6 flex items-center">
+        <p><%= @product[:description] %></p>
+      </div>
+    </div>
+    <div class="p-6 flex flex-col">
+      <button
+        class="px-4 py-3 min-w-72 border border-black rounded-md bg-[#FF90E8]"
+      >Add to cart</button>
     </div>
   </div>
-  <div class="flex gap-4 w-full">
-    <a class="py-2 px-4 border border-black rounded-full bg-white">
-      Product
-    </a>
-    <a class="py-2 px-4">
-      Content
-    </a>
-    <a class="py-2 px-4">
-      Share
-    </a>
 </div>
-</header>
-<div class="py-12 px-16 border-t border-black">
-  <div class="flex flex-col max-w-72">
-    <p>Make some selections, fill in some boxes, and go live in minutes.</p>
-    <p>Our Help Center has everything you need to know.</p>
-  </div>
-</div>
-

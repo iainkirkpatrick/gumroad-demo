@@ -13,4 +13,13 @@ export PORT="${PORT:-3000}"
 export RUBY_DEBUG_OPEN="true"
 export RUBY_DEBUG_LAZY="true"
 
+# Start Caddy in the background
+caddy run --config ./Caddyfile &
+
+# Capture the PID of Caddy to ensure it can be terminated later
+CADDY_PID=$!
+
+# Trap the EXIT signal to ensure Caddy is stopped when the script exits
+trap "kill $CADDY_PID" EXIT
+
 exec foreman start -f Procfile.dev "$@"
