@@ -43,7 +43,7 @@
                   <%= product.name %>
                 </a>
                 <a
-                  class="text-sm hover:underline"
+                  class="text-sm underline"
                   target="_blank"
                   href="<%= subdomain_url('test-user', "/l/#{product.public_id}") %>"
                 >
@@ -51,7 +51,11 @@
                 </a>
               </td>
               <td>
-                <%= product.price_range %>
+                $<%= if product.variants.any?
+                      product.variants.first.price
+                    else
+                      product.price_range
+                    end %>
               </td>
               <td>
                 <%= product.is_published %>

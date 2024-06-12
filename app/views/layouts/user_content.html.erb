@@ -26,23 +26,12 @@
   </head>
 
   <body class="flex flex-col items-center w-full min-h-screen">
-    <nav class="py-6 flex flex-col items-center justify-between w-full border-b border-black">
+    <nav class="px-12 py-6 flex flex-col items-center justify-between w-full border-b border-black bg-[#f4f4f0]">
       <div class="flex items-center justify-between w-full max-w-6xl">
-        <a href="/" class="text-xl"><%= @user[:name] %></a>
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
-            <input
-              class="px-4 py-3 border border-black rounded-md"
-              placeholder="Your email address"
-            />
-            <button
-              class="px-4 py-3 border border-black rounded-md"
-            >Subscribe</button>
-          </div>
-        </div>
+        <h1 class="text-4xl"><%= @product.name %></h1>
       </div>
     </nav>
-    <main class="flex flex-col w-full max-w-6xl">
+    <main class="px-12 flex flex-col w-full max-w-6xl">
       <%= yield %>
     </main>
   </body>

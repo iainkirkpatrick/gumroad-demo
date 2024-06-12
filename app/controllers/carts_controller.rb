@@ -17,6 +17,13 @@ class CartsController < ApplicationController
 
     if add_product
       @cart.cart_items.create(product_id: product_id)
+
+      # COFFEE: if a coffee product is published, add that coffee product to the cart if not already present
+      # add the first variant
+      coffee_product = Product.find_by(native_type: 'coffee')
+      if coffee_product && !@cart.cart_items.find_by(product_id: coffee_product.id)
+        @cart.cart_items.create(product_id: coffee_product.id, variant_id: coffee_product.variants.first.id)
+      end
     else
       @cart.cart_items.find_by(product_id: product_id).destroy
     end

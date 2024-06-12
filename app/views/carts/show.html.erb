@@ -2,5 +2,5 @@
   <%= vite_javascript_tag 'CheckoutPage.tsx' %>
 <% end %>
 
-<div id="checkout-page-data" data-checkout="<%= json_escape(@cart.as_json(include: { cart_items: { include: :product } }).to_json) %>"></div>
+<div id="checkout-page-data" data-checkout="<%= json_escape(@cart.as_json(include: { cart_items: { include: { product: { include: :variants } } } }).to_json) %>"></div>
 <div id="checkout-page-react"></div>

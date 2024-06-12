@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   layout :select_layout
 
   def index
-    @products_by_native_type = Product.all.group_by(&:native_type)
+    @products_by_native_type = Product.includes(:variants).all.group_by(&:native_type)
   end
 
 
@@ -54,12 +54,12 @@ class ProductsController < ApplicationController
   end
 
   def new_product_params
-    product_params = params.require(:product).permit(:name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, tiers: [:public_id, :name, :price])
+    product_params = params.require(:product).permit(:name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, :thanks_message, tiers: [:public_id, :name, :price])
     product_params.except(:tiers)
   end
 
   def update_product_params
-    product_params = params.require(:product).permit(:id, :name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, :is_published, :rich_content, tiers: [:public_id, :name, :price])
+    product_params = params.require(:product).permit(:id, :name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, :is_published, :rich_content, :thanks_message, tiers: [:public_id, :name, :price])
     # handle permitting rich_content as an unspecified hash
     product_params[:rich_content] = params[:product][:rich_content].permit! if params[:product][:rich_content].is_a?(ActionController::Parameters)
     product_params.except(:tiers)
@@ -67,7 +67,14 @@ class ProductsController < ApplicationController
 
   def update_variants
     variants_data = params[:product][:tiers] ||= []
+
+    # params to array
+    if variants_data.is_a?(ActionController::Parameters)
+      variants_data = variants_data.values
+    end
+    
     variants_data.each do |variant_data|
+      puts "variant_data: #{variant_data}"
       variant = @product.variants.find_or_initialize_by(public_id: variant_data[:public_id])
       variant.update(variant_data.permit(:public_id, :name, :price))
     end

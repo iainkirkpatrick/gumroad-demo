@@ -34,6 +34,17 @@ export default function EditProductDetails ({
               onChange={(e) => updateProduct({ description: e.target.value })}
             />
           </div>
+          {product.native_type === 'coffee' && (
+            <div className='flex flex-col gap-1'>
+              <label>Thanks message</label>
+              <textarea
+                className="py-2 px-4 border border-black rounded-md resize-none"
+                placeholder="Enter a thanks message to be displayed when this product is bundled with another product."
+                value={product.thanks_message}
+                onChange={(e) => updateProduct({ thanks_message: e.target.value })}
+              />
+            </div>
+          )}
         </section>
         
         {product.native_type !== 'coffee' && (
@@ -50,6 +61,7 @@ export default function EditProductDetails ({
             </div>
           </section>
         )}
+
 
         {product.native_type === 'coffee' && (
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
