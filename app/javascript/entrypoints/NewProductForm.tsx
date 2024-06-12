@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { v4 as uuidv4 } from 'uuid'
+
+import { useCSRF } from '../hooks/useCSRF'
 
 interface ProductButtonProps {
   title: string
@@ -30,14 +32,7 @@ function ProductButton ({
 function NewProductForm() {
   const [productType, setProductType] = useState('digital')
 
-  // get CSRF token
-  const [csrfToken, setCsrfToken] = useState('');
-
-  useEffect(() => {
-    // N.B. would want to handle if csrf-token meta tag is missing
-    const token = document.querySelector('meta[name="csrf-token"]')!.getAttribute('content');
-    setCsrfToken(token);
-  }, []);
+  const [csrfToken] = useCSRF();
 
   return (
     <form
@@ -131,7 +126,7 @@ function NewProductForm() {
         </div>
       </div>
 
-      {productType === 'coffee' ? (
+      {productType === 'coffee' || productType === 'commissions' ? (
         <div className='flex flex-col gap-1'>
           <label>Price</label>
           <input

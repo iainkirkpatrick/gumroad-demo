@@ -10,8 +10,6 @@ export default function EditProductDetails ({
   product,
   updateProduct
 }: EditProductDetailsProps) {
-  console.log({ product })
-
   return (
     <div className="flex w-full h-full border-t border-black">
       <form className="py-12 px-16 flex flex-col gap-12 w-2/3 border-r border-black">
@@ -47,7 +45,7 @@ export default function EditProductDetails ({
           )}
         </section>
         
-        {product.native_type !== 'coffee' && (
+        {product.native_type !== 'coffee' && product.native_type !== 'commissions' && (
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
             <h2 className="text-2xl">Pricing</h2>
             <div className='flex flex-col gap-1'>
@@ -63,12 +61,13 @@ export default function EditProductDetails ({
         )}
 
 
-        {product.native_type === 'coffee' && (
+        {product.native_type === 'coffee' || product.native_type === 'commissions' && (
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
             <h2 className="text-2xl">Tiers</h2>
             {product.tiers && product.tiers.map((tier: any) => (
               <Tier
                 key={tier.public_id}
+                productType={product.native_type}
                 tier={tier}
                 updateTier={(updatedTier: any) => updateProduct({ tiers: product.tiers.map((t: any) => t.public_id === tier.public_id ? { ...t, ...updatedTier } : t) })}
               />
@@ -92,11 +91,13 @@ export default function EditProductDetails ({
 }
 
 interface TierProps {
+  productType: "coffee" | "commissions"
   tier: any
   updateTier: (details: any) => void;
 }
 
 function Tier ({
+  productType,
   tier,
   updateTier
 }: TierProps) {
@@ -115,7 +116,7 @@ function Tier ({
             }}
           >
             <span
-              className="icon-outline-chevron-down"
+              className={isOpen ? "icon-outline-chevron-up" : "icon-outline-chevron-down"}
             ></span>
           </button>
           <button
@@ -146,6 +147,15 @@ function Tier ({
               placeholder="Price"
               value={tier.price}
               onChange={(e) => updateTier({ price: e.target.value })}
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label>Description</label>
+            <textarea
+              className="py-2 px-4 border border-black rounded-md"
+              placeholder={productType === 'coffee' ? "Let your customer know how much this tier means to you!" : "Tell your customer what they get with this tier."}
+              value={tier.description}
+              onChange={(e) => updateTier({ description: e.target.value })}
             />
           </div>
         </div>

@@ -5,6 +5,7 @@ class CreateVariants < ActiveRecord::Migration[7.1]
       t.string :public_id, null: false
       t.string :name
       t.string :price
+      t.string :description
 
       t.timestamps
     end

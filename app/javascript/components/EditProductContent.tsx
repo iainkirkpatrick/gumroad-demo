@@ -20,7 +20,7 @@ export default function EditProductContent ({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: 'Enter the content you want to sell. Upload your files or start typing.',
+        placeholder: product.native_type === 'commissions' ? 'Let the customer know how to contact you and organise the delivery of the commissioned work.' : 'Enter the content you want to sell. Upload your files or start typing.',
       }),
       CalendlyWidget
     ],

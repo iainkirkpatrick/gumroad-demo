@@ -6,6 +6,8 @@ import EditProductDetails from '../components/EditProductDetails';
 import EditProductContent from '../components/EditProductContent';
 import EditProductShare from '../components/EditProductShare';
 
+import { useCSRF } from '../hooks/useCSRF';
+
 import { toProductWithTiers } from '../utils/toProductWithTiers';
 
 interface EditProductPageProps {
@@ -18,14 +20,8 @@ function EditProductPage({
   const [editedProduct, setEditedProduct] = useState(product);
 
   const [activePane, setActivePane] = useState(window.location.hash || '#');
-  // get CSRF token
-  const [csrfToken, setCsrfToken] = useState('');
-
-  useEffect(() => {
-    // N.B. would want to handle if csrf-token meta tag is missing
-    const token = document.querySelector('meta[name="csrf-token"]')!.getAttribute('content');
-    setCsrfToken(token);
-  }, []);
+  
+  const [csrfToken] = useCSRF();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -56,8 +52,6 @@ function EditProductPage({
   }, [csrfToken, editedProduct, product.public_id]);
 
   const hash = window.location.hash;
-
-  console.log({ editedProduct })
 
   return (
     <>

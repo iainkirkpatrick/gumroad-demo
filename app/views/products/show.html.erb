@@ -1,3 +1,7 @@
+<% content_for :page_specific_scripts do %>
+  <%= vite_javascript_tag 'AddToCartForm.tsx' %>
+<% end %>
+
 <div class="py-16 flex flex-col">
   <div class="flex border border-black rounded-md">
     <div class="flex flex-col grow border-r border-black">
@@ -19,16 +23,11 @@
         <p><%= @product[:description] %></p>
       </div>
     </div>
-    <div class="p-6 flex flex-col">
-      <%= form_with url: cart_path(@cart), method: :patch, local: true do |form| %>
-        <input type="hidden" name="cart[product_public_id]" value="<%= @product[:public_id] %>" />
-        <input type="hidden" name="cart[add_product]" value="true" />
-        <input type="hidden" name="cart[redirect_after_update]" value="true" />
-        <button
-          type="submit"
-          class="px-4 py-3 min-w-72 border border-black rounded-md bg-[#FF90E8]"
-        >Add to cart</button>
-      <% end %>
+
+    <div id="add-to-cart-form-data" data-product="<%= json_escape(@product.to_product_with_tiers.to_json) %>" data-cart="<%= json_escape(@cart.to_json) %>"></div>
+    <div
+      id="add-to-cart-form-react"
+    >
     </div>
   </div>
 </div>
