@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   layout :select_layout
 
   def index
-    @products_by_native_type = Product.includes(:variants).all.group_by(&:native_type)
+    @products_by_category = Product.includes(:variants).all.group_by { |product| categorise_native_type(product.native_type) }
   end
 
 
@@ -86,6 +86,15 @@ class ProductsController < ApplicationController
       "user_content"
     else
       "application"
+    end
+  end
+
+  def categorise_native_type(native_type)
+    case native_type
+    when "calls", "coffee", "commissions"
+      "services"
+    else
+      "products"
     end
   end
 end
