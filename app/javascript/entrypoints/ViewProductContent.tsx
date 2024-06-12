@@ -11,7 +11,7 @@ interface ViewProductContentProps {
 export default function ViewProductContent ({
   product
 }: ViewProductContentProps) {
-  const linkUrl = new URL(product.call_link)
+  const linkUrl = product.call_link ? new URL(product.call_link) : null
 
   const editor = useEditor({
     editable: false,
@@ -35,6 +35,8 @@ export default function ViewProductContent ({
       loadCal()
     }
 	}, [])
+
+  console.log({ product })
 
   return (
     <div className='flex flex-col gap-4 w-full grow'>
