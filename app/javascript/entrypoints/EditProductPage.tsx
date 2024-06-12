@@ -40,6 +40,7 @@ function EditProductPage({
   }, []);
 
   const handleSave = useCallback((vals = {}) => {
+    console.log('saving', pick({ ...editedProduct, ...vals }, ['name', 'description', 'price_range', 'rich_content', 'is_published', 'tiers', 'call_link']))
     return fetch(`/products/${product.public_id}`, {
       method: 'PATCH',
       headers: {
@@ -48,14 +49,15 @@ function EditProductPage({
         'X-CSRF-Token': csrfToken
       },
       body: JSON.stringify({
-        product: pick({ ...editedProduct, ...vals }, ['name', 'description', 'price_range', 'rich_content', 'is_published', 'tiers'])
+        product: pick({ ...editedProduct, ...vals }, ['name', 'description', 'price_range', 'rich_content', 'is_published', 'tiers', 'call_link'])
       })
     })
     .then(res => res.json())
-    .then(res => console.log({ res }))
   }, [csrfToken, editedProduct, product.public_id]);
 
   const hash = window.location.hash;
+
+  console.log({ editedProduct })
 
   return (
     <>
@@ -69,7 +71,6 @@ function EditProductPage({
                   className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md bg-transparent"
                   onClick={() => {
                     handleSave({ is_published: false })
-                    .then((res) => res.json())
                     .then(res => {
                       setEditedProduct(toProductWithTiers(res))
                     })
@@ -112,8 +113,8 @@ function EditProductPage({
                   onClick={() => {
 
                     handleSave({ is_published: true })
-                    .then((res) => res.json())
                     .then((res) => {
+                      console.log({ res }, toProductWithTiers(res))
                       setEditedProduct(toProductWithTiers(res))
                       window.location.hash = '#share';
                     })

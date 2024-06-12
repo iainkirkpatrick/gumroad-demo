@@ -39,6 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_11_045638) do
     t.string "price_range"
     t.string "price_currency_type"
     t.string "rich_content"
+    t.string "call_link"
     t.string "thanks_message"
     t.boolean "is_physical"
     t.boolean "is_recurring_billing"

@@ -8,6 +8,7 @@ class CreateProducts < ActiveRecord::Migration[7.1]
       t.string :price_range
       t.string :price_currency_type
       t.string :rich_content
+      t.string :call_link
       t.string :thanks_message
       t.boolean :is_physical
       t.boolean :is_recurring_billing
