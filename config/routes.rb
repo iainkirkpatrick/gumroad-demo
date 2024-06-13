@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
     get "dashboard", to: "dashboard#index" 
 
-    # Defines the root path route ("/")
-    root "dashboard#index"
   end
+  # Defines the root path route ("/")
+  root "dashboard#index"
 end
