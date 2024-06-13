@@ -85,7 +85,7 @@ class ProductsController < ApplicationController
   def select_layout
     case action_name
     when "show"
-      "user_content"
+      "user_home"
     else
       "application"
     end

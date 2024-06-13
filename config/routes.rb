@@ -5,15 +5,15 @@ Rails.application.routes.draw do
   # updating a cart is possible from either the user subdomain or the main domain (checkout page)
   resources :carts, only: [:update]
 
-  # constraints subdomain: "test-user" do
-  constraints subdomain: /.+/ do
+  constraints subdomain: "test-user.gumroad" do
+  # constraints subdomain: /.+/ do
     get '/', to: 'user_content#index', as: :user_content
     get 'l/:public_id', to: 'products#show', as: :product_link
 
     resources :user_content, controller: 'user_content'   
   end
 
-  constraints subdomain: "" do
+  constraints subdomain: "gumroad" do
     resources :products, param: :public_id, only: [:index, :new, :create, :edit, :update]
 
     get '/checkout', to: 'carts#show', as: 'checkout'
