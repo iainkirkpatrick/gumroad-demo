@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_11_045638) do
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
     t.string "public_id", null: false
-    t.string "native_type", null: false
+    t.integer "native_type", default: 0, null: false
     t.string "description"
     t.string "price_range"
     t.string "price_currency_type"

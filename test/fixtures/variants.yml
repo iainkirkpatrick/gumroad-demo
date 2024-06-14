@@ -2,8 +2,10 @@
 
 one:
   product: one
+  public_id: 'var123'
   name: MyString
 
 two:
   product: two
+  public_id: 'var321'
   name: MyString

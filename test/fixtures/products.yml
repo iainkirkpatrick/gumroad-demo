@@ -4,8 +4,20 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  name: 'Test Product'
+  public_id: '123456'
+  native_type: 'digital'
+  price_range: 1000
+  description: 'Test Product Description'
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+two:
+  name: 'Example Product'
+  public_id: '654321'
+  native_type: 'calls'
+  price_range: 1500
+  description: 'Example Product Description'
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
