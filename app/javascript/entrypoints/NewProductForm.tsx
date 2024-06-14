@@ -84,12 +84,12 @@ function NewProductForm() {
           <ProductButton
             title='Physical good'
             content="Sell anything that requires shipping something."
-            isSelected={productType === 'course'}
+            isSelected={productType === 'physical'}
           />
           <ProductButton
             title='Bundle'
             content="Sell two or more existing products for a new price"
-            isSelected={productType === 'ebook'}
+            isSelected={productType === 'bundle'}
           />
         </div>
       </div>

@@ -35,7 +35,6 @@ export default function AddToCartForm ({
     })
     .then(res => res.json())
     .then(res => {
-      console.log({ res })
       if (res.redirect_url) {
         window.location.href = res.redirect_url;
       }
@@ -44,7 +43,7 @@ export default function AddToCartForm ({
 
   // if product has tiers / variants, select the first one on load
   useEffect(() => {
-    if (product.tiers) {
+    if (product.tiers && product.tiers.length > 0) {
       setEditableCart({ ...editableCart, variant_id: product.tiers[0].id });
     }
   }, [])
