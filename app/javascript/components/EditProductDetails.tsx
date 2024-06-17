@@ -17,6 +17,7 @@ export default function EditProductDetails ({
           <div className='flex flex-col gap-1'>
             <label>Name</label>
             <input
+              name="product[name]"
               className="py-2 px-4 border border-black rounded-md"
               placeholder="Name"
               value={product.name}
@@ -26,6 +27,7 @@ export default function EditProductDetails ({
           <div className='flex flex-col gap-1'>
             <label>Description</label>
             <textarea
+              name="product[description]"
               className="py-2 px-4 border border-black rounded-md resize-none"
               placeholder="Description"
               value={product.description}
@@ -36,6 +38,7 @@ export default function EditProductDetails ({
             <div className='flex flex-col gap-1'>
               <label>Thanks message</label>
               <textarea
+                name="product[thanks_message]"
                 className="py-2 px-4 border border-black rounded-md resize-none"
                 placeholder="Enter a thanks message to be displayed when this product is bundled with another product."
                 value={product.thanks_message}
@@ -51,6 +54,7 @@ export default function EditProductDetails ({
             <div className='flex flex-col gap-1'>
               <label>Amount</label>
               <input
+                name="product[price_range]"
                 className="py-2 px-4 border border-black rounded-md"
                 placeholder="Name"
                 value={product.price_range}
@@ -134,6 +138,7 @@ function Tier ({
           <div className="flex flex-col gap-1">
             <label>Name</label>
             <input
+              name="tier[name]"
               className="py-2 px-4 border border-black rounded-md"
               placeholder="Name"
               value={tier.name}
@@ -143,6 +148,7 @@ function Tier ({
           <div className="flex flex-col gap-1">
             <label>Price</label>
             <input
+              name="tier[price]"
               className="py-2 px-4 border border-black rounded-md"
               placeholder="Price"
               value={tier.price}
@@ -152,6 +158,7 @@ function Tier ({
           <div className="flex flex-col gap-1">
             <label>Description</label>
             <textarea
+              name="tier[description]"
               className="py-2 px-4 border border-black rounded-md"
               placeholder={productType === 'coffee' ? "Let your customer know how much this tier means to you!" : "Tell your customer what they get with this tier."}
               value={tier.description}

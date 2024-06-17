@@ -43,6 +43,7 @@ function NewProductForm() {
     >
       {/* CSRF */}
       <input type="hidden" name="authenticity_token" value={csrfToken} />
+
       <div className='flex flex-col gap-1'>
         <label>Name</label>
         <input
