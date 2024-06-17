@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  if Rails.env.development? || Rails.env.test? 
+    # post '/e2e/create_sample_products', to: 'e2e#create_sample_products', as: :create_sample_products
+    scope :e2e do
+      match ':action', to: 'e2e#:action', via: [:get, :post]
+    end
+  end
+
   resources :purchases
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
