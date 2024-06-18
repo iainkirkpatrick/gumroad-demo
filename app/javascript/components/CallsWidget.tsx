@@ -56,6 +56,7 @@ export function CallsWidget ({
         {meetingLinkUrl && meetingLinkUrl.host === 'calendly.com' && (
           <>
             <iframe
+              id="iframe-calendar"
               src={calendlyMeetingLink}
               width="100%"
               height="900px"
@@ -70,14 +71,16 @@ export function CallsWidget ({
     return (
       <div className="p-4 flex flex-col gap-1 border border-black rounded-md">
         <label className="text-sm">i.e. https://calendly.com/iain-oxlc/test-gumroad-meeting</label>
-        <div className="flex items-center gap-2">
+        <form className="flex items-center gap-2">
           <input
+            name="product[call_link]"
             className='p-3 w-full border border-black rounded-md'
             placeholder='Enter Calendly or Cal.com meeting link'
             value={calendlyMeetingLink}
             onChange={(e) => setCalendlyMeetingLink(e.target.value)}
           />
           <button
+            data-testid="button-addCalendar"
             className='py-3 min-w-48 bg-black text-white p-2 rounded-md'
             onClick={() => {
               updateProduct({
@@ -88,7 +91,7 @@ export function CallsWidget ({
           >
             Add calendar
           </button>
-        </div>
+        </form>
       </div>
     )
   }

@@ -37,8 +37,6 @@ class ProductsController < ApplicationController
   # show route used when viewing product under user subdomain
   def show
     @product = Product.includes(:variants).find_by!(public_id: params[:public_id])
-    puts @product.inspect
-    puts @product.variants.inspect
     # example user data, including all products
     @user = {
       name: "testuser",
@@ -61,7 +59,7 @@ class ProductsController < ApplicationController
   end
 
   def update_product_params
-    product_params = params.require(:product).permit(:id, :name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, :is_published, :rich_content, :thanks_message, :call_link, tiers: [:public_id, :name, :price, :description])
+    product_params = params.require(:product).permit(:id, :name, :description, :native_type, :price_currency_type, :price_range, :is_physical, :is_recurring_billing, :is_published, :rich_content, :thanks_message, :call_link, tiers: [:public_id, :name, :price, :description, :rich_content])
     # handle permitting rich_content as an unspecified hash
     product_params[:rich_content] = params[:product][:rich_content].permit! if params[:product][:rich_content].is_a?(ActionController::Parameters)
     product_params.except(:tiers)
@@ -76,9 +74,12 @@ class ProductsController < ApplicationController
     end
     
     variants_data.each do |variant_data|
-      puts "variant_data: #{variant_data}"
+      variant_params = variant_data.permit(:public_id, :name, :price, :description, :rich_content)
+      # handle permitting the variant rich_content as an unspecified hash
+      variant_params[:rich_content] = variant_data[:rich_content].permit! if variant_data[:rich_content].is_a?(ActionController::Parameters)
+
       variant = @product.variants.find_or_initialize_by(public_id: variant_data[:public_id])
-      variant.update(variant_data.permit(:public_id, :name, :price, :description))
+      variant.update(variant_params)
     end
   end
 

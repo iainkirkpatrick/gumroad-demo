@@ -127,7 +127,7 @@ function NewProductForm() {
         </div>
       </div>
 
-      {productType === 'coffee' || productType === 'commissions' ? (
+      {(productType === 'coffee' || productType === 'commissions') ? (
         <div className='flex flex-col gap-1'>
           <label>Price</label>
           <input

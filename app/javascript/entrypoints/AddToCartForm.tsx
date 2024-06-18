@@ -27,9 +27,9 @@ export default function AddToCartForm ({
       body: JSON.stringify({
         cart: {
           product_public_id: editableCart.product_public_id || product.public_id,
-          variant_id: editableCart.variant_id || product.tiers[0].id,
           add_product: true,
-          redirect_after_update: true
+          redirect_after_update: true,
+          ...((editableCart.variant_id || product.tiers.length > 0) ? { variant_id: editableCart.variant_id || product.tiers[0].id } : {})
         }
       })
     })
@@ -39,7 +39,7 @@ export default function AddToCartForm ({
         window.location.href = res.redirect_url;
       }
     })
-  }, [csrfToken]);
+  }, [csrfToken, editableCart]);
 
   // if product has tiers / variants, select the first one on load
   useEffect(() => {
@@ -50,17 +50,20 @@ export default function AddToCartForm ({
 
   return (
     <div className="p-6 flex flex-col gap-4 max-w-96">
+      <ul className='flex flex-col gap-4 w-full'>
       {product.tiers && product.tiers.map((tier: any) => (
-        <button
-          key={tier.id}
-          className={`p-4 flex flex-col items-start gap-2 border border-black rounded-md ${editableCart.variant_id === tier.id ? 'bg-gray-200 shadow-md' : ''}`}
-          onClick={() => setEditableCart({ ...editableCart, variant_id: tier.id })}
-        >
-          <p className='text-sm'>${tier.price}</p>
-          <p className='font-bold'>{tier.name}</p>
-          <p className='text-sm'>{tier.description}</p>
-        </button>
+        <li key={tier.id} className="w-full">
+          <button
+            className={`p-4 flex flex-col items-start gap-2 w-full border border-black rounded-md ${editableCart.variant_id === tier.id ? 'bg-gray-200 shadow-md' : ''}`}
+            onClick={() => setEditableCart({ ...editableCart, variant_id: tier.id })}
+          >
+            <p className='text-sm'>${tier.price}</p>
+            <p className='font-bold'>{tier.name}</p>
+            <p className='text-sm'>{tier.description}</p>
+          </button>
+        </li>
       ))}
+      </ul>
       <button
         type="submit"
         className="px-4 py-3 min-w-72 border border-black rounded-md bg-[#FF90E8]"

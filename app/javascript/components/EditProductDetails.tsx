@@ -10,6 +10,8 @@ export default function EditProductDetails ({
   product,
   updateProduct
 }: EditProductDetailsProps) {
+  console.log({product})
+
   return (
     <div className="flex w-full h-full border-t border-black">
       <form className="py-12 px-16 flex flex-col gap-12 w-2/3 border-r border-black">
@@ -65,17 +67,20 @@ export default function EditProductDetails ({
         )}
 
 
-        {product.native_type === 'coffee' || product.native_type === 'commissions' && (
+        {(product.native_type === 'coffee' || product.native_type === 'commissions') && (
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
             <h2 className="text-2xl">Tiers</h2>
-            {product.tiers && product.tiers.map((tier: any) => (
-              <Tier
-                key={tier.public_id}
-                productType={product.native_type}
-                tier={tier}
-                updateTier={(updatedTier: any) => updateProduct({ tiers: product.tiers.map((t: any) => t.public_id === tier.public_id ? { ...t, ...updatedTier } : t) })}
-              />
-            ))}
+            <ul className="flex flex-col gap-4">
+              {product.tiers && product.tiers.map((tier: any) => (
+                <li key={tier.public_id}>
+                  <Tier
+                    productType={product.native_type}
+                    tier={tier}
+                    updateTier={(updatedTier: any) => updateProduct({ tiers: product.tiers.map((t: any) => t.public_id === tier.public_id ? { ...t, ...updatedTier } : t) })}
+                  />
+                </li>
+              ))}
+            </ul>
             <button
               className="px-4 flex flex-col items-center justify-center h-12 bg-black text-white rounded-md"
               onClick={(e) => {
@@ -113,6 +118,7 @@ function Tier ({
         <h3 className="text-xl">{tier.name}</h3>
         <div className="flex items-center gap-2">
           <button
+            data-testid="button-tier-toggle"
             className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md"
             onClick={(e) => {
               e.preventDefault()

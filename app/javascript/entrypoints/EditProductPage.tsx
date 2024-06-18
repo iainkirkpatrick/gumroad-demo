@@ -36,7 +36,6 @@ function EditProductPage({
   }, []);
 
   const handleSave = useCallback((vals = {}) => {
-    console.log('saving', pick({ ...editedProduct, ...vals }, ['name', 'description', 'price_range', 'rich_content', 'is_published', 'tiers', 'call_link']))
     return fetch(`/products/${product.public_id}`, {
       method: 'PATCH',
       headers: {
@@ -52,6 +51,8 @@ function EditProductPage({
   }, [csrfToken, editedProduct, product.public_id]);
 
   const hash = window.location.hash;
+
+  console.log({ editedProduct })
 
   return (
     <>
@@ -136,12 +137,12 @@ function EditProductPage({
       {activePane === '#' ? (
         <EditProductDetails
           product={editedProduct}
-          updateProduct={(updatedProduct) => setEditedProduct({ ...editedProduct, ...updatedProduct })}
+          updateProduct={(updatedProduct) => setEditedProduct((currentProduct) => ({ ...currentProduct, ...updatedProduct }))}
         />
       ) : activePane === '#content' ? (
         <EditProductContent
           product={editedProduct}
-          updateProduct={(updatedProduct) => setEditedProduct({ ...editedProduct, ...updatedProduct })}
+          updateProduct={(updatedProduct) => setEditedProduct((currentProduct) => ({ ...currentProduct, ...updatedProduct }))}
         />
       ) : activePane === '#share' ? (
         <EditProductShare />

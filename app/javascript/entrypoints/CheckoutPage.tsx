@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { useCSRF } from '../hooks/useCSRF';
@@ -35,7 +35,7 @@ function CheckoutPage({
     .then(res => {
       setEditableCart({ ...editableCart, cart_items: editableCart.cart_items.filter(ci => ci.product.public_id !== productPublicId) })
     })
-  }, [csrfToken]);
+  }, [csrfToken, editableCart]);
 
   const handlePay = useCallback(() => {
     return fetch(`/purchases`, {
@@ -65,8 +65,6 @@ function CheckoutPage({
     }
   }, 0);
 
-  console.log({ editableCart })
-
   if (purchases.length > 0) {
     return (
       <Success
@@ -78,32 +76,35 @@ function CheckoutPage({
     return (
       <div className="py-16 flex gap-16">
         <div className="flex flex-col grow border border-black rounded-md bg-white">
-          {editableCart && editableCart.cart_items.map((cartItem: any, i: number) => {
-            // if coffee, render a border and description or placeholder message
-            if (cartItem.product.native_type === 'coffee') {
-              return (
-                <div key={cartItem.product.public_id} className='p-4 flex flex-col gap-4 border-b border-black'>
-                  <p>{cartItem.product.thanks_message || 'Thank you for supporting my work!'}</p>
-                  <div className="flex flex-col grow border border-black rounded-md bg-white">
+          <ul className="flex flex-col grow">
+            {editableCart && editableCart.cart_items.map((cartItem: any, i: number) => {
+              // if coffee, render a border and description or placeholder message
+              if (cartItem.product.native_type === 'coffee') {
+                return (
+                  <li key={cartItem.product.public_id} className='p-4 flex flex-col gap-4 border-b border-black'>
+                    <p>{cartItem.product.thanks_message || 'Thank you for supporting my work!'}</p>
+                    <div className="flex flex-col grow border border-black rounded-md bg-white">
+                      <CartItem
+                        cartItem={cartItem}
+                        handleRemoveItem={() => handleRemoveItem(cartItem.product.public_id)}
+                        updateCartItem={(newCartItem) => setEditableCart({ ...editableCart, cart_items: editableCart.cart_items.map(ci => ci.product.public_id === cartItem.product.public_id ? newCartItem : ci) })}
+                      />
+                    </div>
+                  </li>
+                )
+              } else {
+                return (
+                  <li key={cartItem.product.public_id}>
                     <CartItem
                       cartItem={cartItem}
-                      handleRemoveItem={handleRemoveItem}
-                      updateCartItem={(newCartItem) => setEditableCart({ ...editableCart, cart_items: editableCart.cart_items.map(ci => ci.product.public_id === cartItem.product.public_id ? newCartItem : ci) })}
+                      handleRemoveItem={() => handleRemoveItem(cartItem.product.public_id)}
+                      updateCartItem={cartItem.product.variants.length > 0 ? (newCartItem) => setEditableCart({ ...editableCart, cart_items: editableCart.cart_items.map(ci => ci.product.public_id === cartItem.product.public_id ? newCartItem : ci) }) : undefined}
                     />
-                  </div>
-                </div>
-              )
-            } else {
-              return (
-                <CartItem
-                  key={cartItem.product.public_id}
-                  cartItem={cartItem}
-                  handleRemoveItem={handleRemoveItem}
-                  updateCartItem={cartItem.product.variants.length > 0 ? (newCartItem) => setEditableCart({ ...editableCart, cart_items: editableCart.cart_items.map(ci => ci.product.public_id === cartItem.product.public_id ? newCartItem : ci) }) : undefined}
-                />
-              )
-            }
-          })}
+                  </li>
+                )
+              }
+            })}
+          </ul>
           <div className='p-4 flex items-center justify-between'>
             <p className='text-xl'>Total</p>
             <p className='text-xl'>${total}</p>
@@ -128,7 +129,7 @@ function CheckoutPage({
 
 interface CartItemProps {
   cartItem: any;
-  handleRemoveItem: (publicId: string) => void;
+  handleRemoveItem: () => void;
   updateCartItem?: (cartItem: any) => void;
 }
 
@@ -137,9 +138,30 @@ function CartItem ({
   handleRemoveItem,
   updateCartItem
 }: CartItemProps) {
+  const configureRef = useRef(null);
   const [isConfigureOpen, setIsConfigureOpen] = useState(false);
+  const [selectedConfigureVariantId, setSelectedConfigureVariantId] = useState(cartItem.variant_id);
 
   const selectedVariant = cartItem.product.variants.find(v => v.id === cartItem.variant_id);
+
+  // reset selectedVariantId when configure dropdown closes, in case the user selected a different variant but did not save the change
+  useEffect(() => {
+    if (!isConfigureOpen) {
+      setSelectedConfigureVariantId(cartItem.variant_id);
+    }
+  }, [isConfigureOpen]);
+
+  useEffect(() => {
+    if (isConfigureOpen && configureRef.current) {
+      function handleClickOutside (e) {
+        if (configureRef.current && !configureRef.current.contains(e.target)) {
+          setIsConfigureOpen(false);
+        }
+      }
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [configureRef, isConfigureOpen]);
 
   return (
     <div className="flex border-b border-black">
@@ -149,7 +171,7 @@ function CartItem ({
           <p className="font-bold">{cartItem.product.name}</p>
           <div className='flex gap-4'>
             <p className="text-sm"><span className="font-bold">Qty: </span>1</p>
-            {selectedVariant.name && <p className="text-sm"><span className="font-bold">Variant: </span>{selectedVariant.name}</p>}
+            {selectedVariant && selectedVariant.name && <p className="text-sm"><span className="font-bold">Variant: </span>{selectedVariant.name}</p>}
           </div>
         </div>
         <div className="flex flex-col items-end justify-between">
@@ -160,22 +182,33 @@ function CartItem ({
           )}
           <div className='flex gap-4'>
             {cartItem.product.variants && updateCartItem && (
-              <div className="relative">
+              <div 
+                ref={configureRef}
+                className="relative"
+              >
                 <button
                   className="text-sm underline"
                   onClick={() => setIsConfigureOpen(!isConfigureOpen)}
                 >Configure</button>
                 {isConfigureOpen && (
-                  <div className='p-4 absolute top-full flex flex-col gap-4 min-w-96 border border-black rounded-md bg-white shadow-md'>
+                  <div
+                    className='p-4 absolute top-full flex flex-col gap-4 min-w-96 border border-black rounded-md bg-white shadow-md z-10'
+                  >
                     {cartItem.product.variants.map(variant => (
-                      <button className={`p-4 flex flex-col items-start gap-2 border border-black rounded-md ${selectedVariant.id === variant.id ? 'bg-gray-200 shadow-md' : ''}`}>
+                      <button
+                        className={`p-4 flex flex-col items-start gap-2 border border-black rounded-md ${selectedConfigureVariantId === variant.id ? 'bg-gray-200 shadow-md' : ''}`}
+                        onClick={() => setSelectedConfigureVariantId(variant.id)}
+                      >
                         <p className='text-sm'>${variant.price}</p>
                         <p className='font-bold'>{variant.name}</p>
                       </button>
                     ))}
                     <button
                       className='px-4 py-3 w-full border border-black rounded-md bg-[#FF90E8]'
-                      onClick={() => updateCartItem({ ...cartItem, variant_id: selectedVariant.id })}
+                      onClick={() => {
+                        updateCartItem({ ...cartItem, variant_id: selectedConfigureVariantId })
+                        setIsConfigureOpen(false)
+                      }}
                     >Save changes</button>
                   </div>
                 )}
@@ -184,7 +217,7 @@ function CartItem ({
             <button
               type="submit"
               className="text-sm underline"
-              onClick={() => handleRemoveItem(cartItem.product.publicId)}
+              onClick={handleRemoveItem}
             >Remove</button>
           </div>
         </div>
@@ -209,10 +242,11 @@ function Success ({
           <p className='font-bold'>Checkout</p>
         </div>
         <div className='p-8 flex flex-col items-center border-b border-black'>
-          <p className='text-2xl'>Your purchase was successful!</p>
+          <h3 className='text-2xl'>Your purchase was successful!</h3>
         </div>
+        <ul>
         {editableCart && editableCart.cart_items.map((cartItem: any, i: number) => (
-          <div className={`p-4 flex flex-col items-center gap-4 ${i !== editableCart.cart_items.length - 1 ? 'border-b border-black' : ''}`}>
+          <li className={`p-4 flex flex-col items-center gap-4 ${i !== editableCart.cart_items.length - 1 ? 'border-b border-black' : ''}`}>
             <div className='flex justify-between w-full'>
               <p className='font-bold'>{cartItem.product.name}</p>
               <p>${cartItem.variant_id ? cartItem.product.variants.find(v => v.id === cartItem.variant_id).price : cartItem.product.price_range}</p>
@@ -222,8 +256,9 @@ function Success ({
               className='px-4 py-3 flex flex-col items-center w-full border border-black rounded-md bg-[#FF90E8]' 
               href={`/d/${purchases.find(p => p.product_id === cartItem.product.id).public_id}`}
             >View content</a>
-          </div>
+          </li>
         ))}
+        </ul>
       </div>
     </div>
   )

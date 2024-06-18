@@ -62,6 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_11_045638) do
     t.string "name"
     t.string "price"
     t.string "description"
+    t.string "rich_content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_variants_on_product_id"

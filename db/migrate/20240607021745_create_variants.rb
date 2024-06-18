@@ -6,6 +6,7 @@ class CreateVariants < ActiveRecord::Migration[7.1]
       t.string :name
       t.string :price
       t.string :description
+      t.string :rich_content
 
       t.timestamps
     end
