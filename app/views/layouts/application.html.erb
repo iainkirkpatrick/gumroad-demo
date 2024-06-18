@@ -12,6 +12,7 @@
     <%= vite_client_tag %>
     <%= vite_react_refresh_tag %>
     <%= vite_javascript_tag 'application' %>
+    <%= vite_javascript_tag 'NavMobile.tsx' %>
     <!--
       If using a TypeScript entrypoint file:
         vite_typescript_tag 'application'
@@ -26,57 +27,8 @@
   </head>
 
   <body class="bg-[#f4f4f0]">
-    <div class="flex w-full min-h-screen">
-      <nav class="py-6 flex flex-col min-w-[205px] bg-black text-white">
-        <header class="p-6 flex flex-col items-center">
-          <a class="w-full" href="/">
-            <span
-              class="logo-full"
-            ></span>
-          </a>
-          <p class="-mt-3 font-bold">DEMO</p>
-        </header>
-        <section class="py-6 flex flex-col">
-          <a class="px-6 py-4 flex items-center border-t" href="/dashboard" title="Home">
-            <span
-              class="mr-2 inline-block h-6 w-6 icon-shop-window-fill"
-            ></span>
-            Home
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/products" title="Products">
-            <span class="icon icon-archive-fill"></span>
-            Products
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/collaborators" title="Collaborators">
-            <span class="icon icon-deal-fill"></span>
-            Collaborators
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/checkout/discounts" title="Checkout">
-            <span class="icon icon-cart3-fill"></span>
-            Checkout
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/posts" title="Emails">
-            <span class="icon icon-envelope-fill"></span>
-            Emails
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/workflows" title="Workflows">
-            <span class="icon icon-diagram-2-fill"></span>
-            Workflows
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/customers" title="Sales">
-            <span class="icon icon-solid-currency-dollar"></span>
-            Sales
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-slate-100" href="/dashboard/sales" title="Analytics">
-            <span class="icon icon-bar-chart-fill"></span>
-            Analytics
-          </a>
-          <a class="px-6 py-4 flex items-center border-t border-b border-slate-100" href="/balance" title="Payouts">
-            <span class="icon icon-solid-currency-dollar"></span>
-            Payouts
-          </a>
-        </section>
-      </nav>
+    <div class="pt-16 lg:pt-0 flex w-full min-h-screen">
+      <%= render 'layouts/navbar' %>
       <main class="flex flex-col w-full">
         <%= yield %>
       </main>
