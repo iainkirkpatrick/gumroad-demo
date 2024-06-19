@@ -35,10 +35,11 @@
             <th class="text-left text-sm">Published</th>
           </tr> 
         </thead>
-        <tbody>
+        <tbody class="flex flex-col lg:table-row-group gap-4 lg:gap-0">
           <% products.each do |product| %>
-            <tr class="bg-white border border-black rounded-md">
-              <td class="p-4 flex flex-col">
+            <tr class="py-4 lg:p-0 flex flex-col lg:table-row gap-4 lg:gap-0 bg-white border border-black rounded-md">
+              <td class="px-4 lg:p-4 flex flex-col">
+                <p class="lg:hidden text-sm">Name</p>
                 <a class="font-bold" href="/products/<%= product.public_id %>/edit">
                   <%= product.name %>
                 </a>
@@ -50,15 +51,21 @@
                   <%= subdomain_url('test-user', "/l/#{product.public_id}") %>
                 </a>
               </td>
-              <td>
+              <td class="px-4 lg:p-0">
+                <p class="lg:hidden text-sm">Price</p>
                 $<%= if product.variants.any?
                       product.variants.first.price
                     else
                       product.price_range
                     end %>
               </td>
-              <td>
-                <%= product.is_published %>
+              <td class="px-4 lg:p-0">
+                <p class="lg:hidden text-sm">Published</p>
+                <% if product.is_published %>
+                  Published
+                <% else %>
+                  Unpublished
+                <% end %>
               </td>
             </tr>
           <% end %>
