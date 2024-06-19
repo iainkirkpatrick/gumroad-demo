@@ -9,17 +9,19 @@ interface ProductButtonProps {
   content: string
   onClick?: (e: React.MouseEvent) => void
   isSelected: boolean
+  className?: string
 }
 
 function ProductButton ({
   title,
   content,
   onClick,
-  isSelected
+  isSelected,
+  className
 }: ProductButtonProps) {
   return (
     <button
-      className={`p-4 flex flex-col items-start border border-black rounded-md ${isSelected ? 'bg-white' : ''}`}
+      className={`p-4 flex flex-col items-start border border-black rounded-md ${isSelected ? 'bg-white' : ''} ${className}`}
       style={isSelected ? { boxShadow: "4px 4px" } : {}}
       onClick={onClick ? onClick : (e) => e.preventDefault()}
     >
@@ -71,26 +73,31 @@ function NewProductForm() {
             title='Course or tutorial'
             content="Sell a single lesson or teach a whole cohort of students."
             isSelected={productType === 'course'}
+            className='line-through'
           />
           <ProductButton
             title='E-book'
             content="Sell a single lesson or teach a whole cohort of students."
             isSelected={productType === 'ebook'}
+            className='line-through'
           />
           <ProductButton
             title='Membership'
             content="Start a membership business around your fans."
             isSelected={productType === 'membership'}
+            className='line-through'
           />
           <ProductButton
             title='Physical good'
             content="Sell anything that requires shipping something."
             isSelected={productType === 'physical'}
+            className='line-through'
           />
           <ProductButton
             title='Bundle'
             content="Sell two or more existing products for a new price"
             isSelected={productType === 'bundle'}
+            className='line-through'
           />
         </div>
       </div>
