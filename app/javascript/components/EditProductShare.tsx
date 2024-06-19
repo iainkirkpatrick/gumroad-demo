@@ -11,7 +11,7 @@ export default function EditProductShare ({
     <div className="flex w-full h-full border-t border-black">
       <form className="py-6 lg:py-12 px-4 lg:px-16 flex flex-col gap-12 w-full lg:w-2/3 border-r border-black">
         <section className="flex flex-col gap-4">
-          <p>(Sharing content.)</p>
+          <p>(Sharing content not implemented.)</p>
         </section>
       </form>
       
