@@ -50,6 +50,7 @@ export default function ViewProductContent ({
           {linkUrl && linkUrl.host === 'calendly.com' && (
             <>
               <iframe
+                id="iframe-calendar"
                 src={product.call_link}
                 width="100%"
                 height="900px"

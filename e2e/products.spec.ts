@@ -93,7 +93,6 @@ test.describe('general product functionality', () => {
   });
 })
 
-// coffee
 test.describe('coffee', () => {
   test.beforeEach(async () => {
     const reqCtx = await request.newContext()
@@ -111,38 +110,66 @@ test.describe('coffee', () => {
     const productName = 'Test Coffee Product';
     const productPrice = '5';
     const productDescription = 'This is a test coffee description';
-    const productThanks = 'Thank you for your purchase!';
     const productContent = 'This is test coffee content.';
+    const productThanks = 'Thank you for your purchase!';
+    const productFirstTierName = 'Coffee';
+    const productFirstTierDescription = 'You buy me a coffee.';
+    const productSecondTierName = 'Pizza';
+    const productSecondTierPrice = '20';
+    const productSecondTierDescription = 'I can afford a pizza!';
+    const productSecondTierContent = 'This is test content for the second tier.';
 
     // fill out new product form
     await expect(page.url()).toContain('/products/new');
     await page.locator('input[name="product[name]"]').fill(productName);
     await page.locator('button:has-text("Coffee")').click();
-    await page.locator('input[name="product[price_range]"]').fill(productPrice);
+    await page.locator('input[name="product[tiers][0][price]"]').fill(productPrice);
     await page.locator('button[form="new-product-form"]').click();
 
-    // fill out remaining product details
+    // // fill out remaining product details
     await expect(page.getByRole('heading', { name: productName })).toBeVisible();
     await expect(page.locator('input[name="product[name]"]')).toHaveValue(productName);
-    await expect(page.locator('input[name="product[price_range]"]')).toHaveValue(productPrice);
     await page.locator('textarea[name="product[description]"]').fill(productDescription);
-    await expect(page.locator('input[name="product[thanks_message]"]')).toHaveValue(productThanks);
+    await page.locator('textarea[name="product[thanks_message]"]').fill(productThanks);
+
+    // name the generated tier, and create a new tier
+    const firstTierLocator = page.locator('li:nth-child(1)');
+    await firstTierLocator.locator('button[data-testid="button-tier-toggle"]').click();
+    // expect first tier to have been given the initial price specified
+    await expect(page.locator('input[name="tier[price]"]')).toHaveValue(productPrice);
+    await firstTierLocator.locator('input[name="tier[name]"]').fill(productFirstTierName);
+    await firstTierLocator.locator('textarea[name="tier[description]"]').fill(productFirstTierDescription);
+    await page.locator('button:has-text("Add tier")').click();
+    const secondTierLocator = page.locator('li:nth-child(2)');
+    await secondTierLocator.locator('button[data-testid="button-tier-toggle"]').click();
+    await secondTierLocator.locator('input[name="tier[name]"]').fill(productSecondTierName);
+    await secondTierLocator.locator('textarea[name="tier[description]"]').fill(productSecondTierDescription);
+    await secondTierLocator.locator('input[name="tier[price]"]').fill(productSecondTierPrice);
     await page.getByRole('button', { name: 'Save and continue' }).click();
 
-    // fill out product content
+    // fill out product content, for each tier
     await page.waitForFunction(() => window.location.hash === '#content');
     await expect(page.locator('a[href="#content"]')).toHaveClass(/bg-white/)
     await page.locator('.tiptap').fill(productContent);
+    await page.locator('button:has-text("Editing")').click();
+    await page.getByRole('button', { name: productSecondTierName }).click();
+    await page.locator('.tiptap').fill(productSecondTierContent);
     await page.getByRole('button', { name: 'Publish and continue' }).click();
 
     // click back to previous tabs and confirm content saved
     await page.waitForFunction(() => window.location.hash === '#share');
     await page.locator('header').locator('a[href="#"]').click();
     await expect(page.locator('a[href="#"]')).toHaveClass(/bg-white/)
-    await expect(page.locator('textarea[name="product[description]"]')).toHaveValue(productDescription);
+    await firstTierLocator.locator('button[data-testid="button-tier-toggle"]').click();
+    await expect(firstTierLocator.locator('textarea[name="tier[description]"]')).toHaveValue(productFirstTierDescription);
+    await secondTierLocator.locator('button[data-testid="button-tier-toggle"]').click();
+    await expect(secondTierLocator.locator('textarea[name="tier[description]"]')).toHaveValue(productSecondTierDescription);
     await page.locator('header').locator('a[href="#content"]').click();
     await page.waitForFunction(() => window.location.hash === '#content');
     await expect(page.locator('.tiptap')).toHaveText(productContent);
+    await page.locator('button:has-text("Editing")').click();
+    await page.getByRole('button', { name: productSecondTierName }).click();
+    await expect(page.locator('.tiptap')).toHaveText(productSecondTierContent);
 
     // navigate back to products page and confirm product is listed
     await page.locator('nav').locator('a[href="/products"]').click();
@@ -172,8 +199,6 @@ test.describe('coffee', () => {
   });
 });
 
-// calls
-// a creator should be able to add calls product tiers, each with a separate calendar link
 test.describe('calls', () => {
   test.beforeEach(async () => {
     const reqCtx = await request.newContext()
@@ -244,8 +269,6 @@ test.describe('calls', () => {
   test('should get access to calendar when buying a calls product', async ({ page, context }) => {
     await page.goto('/products');
 
-    const calendarFrameLocator = page.frameLocator('#iframe-calendar');
-    const calendarFrameHeadingLocator = calendarFrameLocator.locator('h1:has-text("Test Gumroad Meeting")');
     const callsTableElementLocator = page.locator('td').filter({ hasText: 'Calls Product' });
     const callsParentElementLocator = callsTableElementLocator.locator('..');
     const callsExternalLinkLocator = callsParentElementLocator.locator('a[href*="/l/"]');
@@ -257,8 +280,6 @@ test.describe('calls', () => {
     // add the calls product to cart
     await productPage.locator('button:has-text("Add to cart")').click();
 
-    await productPage.pause()
-
     await productPage.locator('button:has-text("Pay")').click()
     await expect(productPage.locator('h3:has-text("Your purchase was successful!")')).toBeVisible();
     const callsProductLocator = productPage.locator('li:has-text("Calls Product")');
@@ -269,13 +290,13 @@ test.describe('calls', () => {
     const productContentPage = await pagePromiseContent;
     await expect(productContentPage.locator('h1:has-text("Calls Product")')).toBeVisible();
     // expect that the iframe has loaded correctly
+    const calendarFrameLocator = productContentPage.frameLocator('#iframe-calendar');
+    const calendarFrameHeadingLocator = calendarFrameLocator.locator('h1:has-text("Test Gumroad Meeting")');
     await calendarFrameHeadingLocator.waitFor({ state: 'visible' });
     await expect(calendarFrameHeadingLocator).toBeVisible();
   });
 });
 
-// commissions
-// when buying a commission, a buyer should get access to the content
 test.describe('commissions', () => {
   test.beforeEach(async () => {
     const reqCtx = await request.newContext()
@@ -333,7 +354,7 @@ test.describe('commissions', () => {
     await expect(page.locator('a[href="#content"]')).toHaveClass(/bg-white/)
     await page.locator('.tiptap').fill(productContent);
     await page.locator('button:has-text("Editing")').click();
-    await page.getByRole('button', { name: 'Large Canvas' }).click();
+    await page.getByRole('button', { name: productSecondTierName }).click();
     await page.locator('.tiptap').fill(productSecondTierContent);
     await page.getByRole('button', { name: 'Publish and continue' }).click();
 
@@ -349,7 +370,7 @@ test.describe('commissions', () => {
     await page.waitForFunction(() => window.location.hash === '#content');
     await expect(page.locator('.tiptap')).toHaveText(productContent);
     await page.locator('button:has-text("Editing")').click();
-    await page.getByRole('button', { name: 'Large Canvas' }).click();
+    await page.getByRole('button', { name: productSecondTierName }).click();
     await expect(page.locator('.tiptap')).toHaveText(productSecondTierContent);
 
     // navigate back to products page and confirm product is listed
@@ -372,7 +393,6 @@ test.describe('commissions', () => {
     // select the large canvas tier
     await productPage.locator('li:has-text("Large Canvas")').locator('button').click();
     // add the commissions product to cart
-    await productPage.pause()
     await productPage.locator('button:has-text("Add to cart")').click();
 
     await productPage.locator('button:has-text("Pay")').click()

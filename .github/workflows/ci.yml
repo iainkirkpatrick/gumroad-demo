@@ -64,6 +64,4 @@ jobs:
         bin/rails test
 
     - name: Run Playwright tests
-      run: |
-        npx playwright install-deps
-        npx playwright test
+      run: npm run ci
