@@ -25,9 +25,9 @@ export default function EditProductContent ({
         setSelectedTierId={setSelectedTierId}
       />
       <div
-        className='py-8 px-16 flex grow gap-16 w-full'
+        className='py-6 lg:py-8 px-4 lg:px-16 flex grow gap-16 w-full'
       >
-        <div className="flex flex-col gap-4">
+        <div className="hidden lg:flex flex-col gap-4">
           <div className="p-4 flex flex-col gap-4 border border-black rounded-md">
             <label>Liked it? Give it a rating:</label>
             <textarea
@@ -79,7 +79,7 @@ function Navbar ({
   const [isTierSelectorOpen, setIsTierSelectorOpen] = useState(false)
 
   return (
-    <div className='p-2 flex items-center justify-between w-full border-b border-t border-black z-10'>
+    <div className='p-2 flex flex-wrap items-center justify-between gap-2 w-full border-b border-t border-black z-10'>
       <div className="flex items-center gap-1">
         <button className="flex flex-col items-center justify-center w-8 h-8">
           <span className="icon-bold"></span>
@@ -142,7 +142,7 @@ function Navbar ({
             {`Editing: ${selectedTier.name}`}
           </button>
           {isTierSelectorOpen && (
-            <ul className='p-4 absolute top-full right-0 flex flex-col gap-4 min-w-48 border border-black rounded-md bg-white shadow-md'>
+            <ul className='p-4 absolute top-full right-auto left-0 lg:right-0 lg:left-auto flex flex-col gap-4 min-w-48 border border-black rounded-md bg-white shadow-md'>
               {product.tiers.map(tier => (
                 <li key={tier.id} className="w-full">
                   <button

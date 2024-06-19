@@ -56,14 +56,14 @@ function EditProductPage({
 
   return (
     <>
-      <header className="py-12 px-16 flex flex-col gap-4 w-full" data-controller="edit-product-form">
+      <header className="py-6 lg:py-12 px-4 lg:px-16 flex flex-col gap-4 w-full" data-controller="edit-product-form">
         <div className="flex justify-between w-full">
-          <h1 className="text-[40px]">{editedProduct.name}</h1>
-          <div className="flex gap-4">
+          <h1 className="hidden lg:inline text-[40px]">{editedProduct.name}</h1>
+          <div className="flex gap-4 w-full lg:w-auto">
             {editedProduct.is_published ? (
               <>
                 <button
-                  className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md bg-transparent"
+                  className="px-4 flex flex-col items-center justify-center w-full lg:w-auto h-12 border border-black rounded-md bg-transparent"
                   onClick={() => {
                     handleSave({ is_published: false })
                     .then(res => {
@@ -73,7 +73,7 @@ function EditProductPage({
                 >Unpublish</button>
                 <button
                   type="submit"
-                  className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md text-white bg-black"
+                  className="px-4 flex flex-col items-center justify-center w-full lg:w-auto h-12 border border-black rounded-md text-white bg-black"
                   onClick={() => {
                     handleSave()
                     .then((res) => {
@@ -85,7 +85,7 @@ function EditProductPage({
             ) : activePane === '#' ? (
               <button
                 type="submit"
-                className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md text-white bg-black"
+                className="px-4 flex flex-col items-center justify-center w-full lg:w-auto h-12 border border-black rounded-md text-white bg-black"
                 onClick={() => {
                   handleSave()
                   .then((res) => {
@@ -97,14 +97,14 @@ function EditProductPage({
               <>
                 <button
                   type="submit"
-                  className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md text-white bg-black"
+                  className="px-4 flex flex-col items-center justify-center w-full lg:w-auto h-12 border border-black rounded-md text-white bg-black"
                   onClick={() => {
                     handleSave()
                   }}
                 >Save changes</button>
                 <button
                   type="submit"
-                  className="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md bg-[#FF90E8]"
+                  className="px-4 flex flex-col items-center justify-center w-full lg:w-auto h-12 border border-black rounded-md bg-[#FF90E8]"
                   onClick={() => {
 
                     handleSave({ is_published: true })

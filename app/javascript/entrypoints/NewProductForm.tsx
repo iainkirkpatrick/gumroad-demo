@@ -57,7 +57,7 @@ function NewProductForm() {
       <input type="hidden" name="product[native_type]" value={productType} />
       <div className='flex flex-col gap-1'>
         <label className="font-bold">Products</label>
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
           <ProductButton
             title='Digital product'
             content="Any set of files to download or stream."
@@ -96,7 +96,7 @@ function NewProductForm() {
       </div>
       <div className='flex flex-col gap-1'>
         <label className="font-bold">Services</label>
-        <div className='grid grid-cols-3 gap-2'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
           <ProductButton
             title='Coffee'
             content="Boost your support and accept tips from customers."

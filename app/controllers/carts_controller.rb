@@ -28,27 +28,13 @@ class CartsController < ApplicationController
       @cart.cart_items.find_by(product_id: product_id).destroy
     end
 
-    # respond_to do |format|
-      # format.html do
-      #   if redirect_after_update
-      #     port = ":#{request.port}" unless Rails.env.production? || Rails.env.staging?
-      #     root_url = "#{request.protocol}#{root_domain}#{port}/checkout"
-      #     redirect_to root_url, allow_other_host: true
-      #   else
-      #     render :show
-      #   end
-      # end
-      # format.json { render json: @cart, include: { cart_items: { include: :product } }, status: :ok }
-      # format.json do
-      if redirect_after_update
-        port = ":#{request.port}" unless Rails.env.production? || Rails.env.staging?
-        root_url = "#{request.protocol}#{root_domain}#{port}/checkout"
-        render json: { redirect_url: root_url }, status: :ok
-      else
-        render json: @cart, include: { cart_items: { include: :product } }, status: :ok
-      end
-      # end
-    # end
+    if redirect_after_update
+      port = ":#{request.port}" unless Rails.env.production? || Rails.env.staging?
+      root_url = "#{request.protocol}#{root_domain}#{port}/checkout"
+      render json: { redirect_url: root_url }, status: :ok
+    else
+      render json: @cart, include: { cart_items: { include: :product } }, status: :ok
+    end
   end
 
   private

@@ -1,12 +1,12 @@
-<header class="py-12 px-16 flex flex-col gap-4 w-full">
+<header class="py-6 lg:py-12 px-4 lg:px-16 flex flex-col gap-4 w-full">
   <div class="flex justify-between w-full">
-    <h1 class="text-[40px]">Products</h1>
-    <div class="flex gap-4">
-      <button class="flex flex-col items-center justify-center w-12 h-12 border border-black rounded-md">
+    <h1 class="hidden lg:inline text-[40px]">Products</h1>
+    <div class="flex gap-4 w-full lg:w-auto">
+      <button class="flex flex-col items-center justify-center w-full lg:w-12 h-12 border border-black rounded-md ">
         <span class="icon-solid-search"></span>
       </button>
       <a
-        class="px-4 flex flex-col items-center justify-center h-12 border border-black rounded-md bg-[#FF90E8]"
+        class="px-4 flex flex-col items-center justify-center w-full lg:w-48 h-12 border border-black rounded-md bg-[#FF90E8]"
         href="/products/new"
       >New product</a>
     </div>
@@ -23,17 +23,17 @@
     </a>
   </div>
 </header>
-<div class="py-12 px-16 flex flex-col gap-12 border-t border-black">
+<div class="py-6 lg:py-12 px-4 lg:px-16 flex flex-col gap-12 border-t border-black">
   <% @products_by_category.each do |category, products| %>
     <div class="flex flex-col gap-4">
       <h2 class="text-2xl"><%= category.capitalize %></h2>
       <table class="w-full">
-        <thead>
+        <thead class="hidden lg:table-header-group">
           <tr>
             <th class="text-left text-sm">Name</th>
             <th class="text-left text-sm">Price</th>
             <th class="text-left text-sm">Published</th>
-          </tr>
+          </tr> 
         </thead>
         <tbody>
           <% products.each do |product| %>

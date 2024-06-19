@@ -2,8 +2,8 @@
   <%= vite_javascript_tag 'ViewProductContent.tsx' %>
 <% end %>
 
-<div class="py-8 flex gap-16">
-  <div class="flex flex-col gap-4">
+<div class="py-4 lg:py-8 flex flex-col lg:flex-row gap-16">
+  <div class="flex flex-col gap-4 order-2 lg:order-none">
     <div class="p-4 flex flex-col gap-4 border border-black rounded-md">
       <label>Liked it? Give it a rating:</label>
       <textarea
@@ -13,7 +13,7 @@
     </div>
   </div>
   
-  <div id="view-product-content-data" data-product="<%= json_escape(@product.to_product_with_tiers.to_json) %>"></div>
+  <div id="view-product-content-data" data-product="<%= json_escape(@product.to_product_with_tiers.to_json) %>" class="order-1 lg:order-none"></div>
   <div
     id="view-product-content-react"
     class="w-full"

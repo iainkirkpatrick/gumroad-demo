@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -35,8 +35,6 @@ export default function ViewProductContent ({
       loadCal()
     }
 	}, [])
-
-  console.log({ product })
 
   return (
     <div className='flex flex-col gap-4 w-full grow'>
