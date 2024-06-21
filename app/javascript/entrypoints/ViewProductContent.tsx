@@ -34,7 +34,7 @@ export default function ViewProductContent ({
       }
       loadCal()
     }
-	}, [])
+	}, [linkUrl])
 
   return (
     <div className='flex flex-col gap-4 w-full grow'>
@@ -56,7 +56,7 @@ export default function ViewProductContent ({
                 height="900px"
                 frameBorder="0"
               />
-              <script src="https://assets.calendly.com/assets/external/widget.js"></script>
+              <script src="https://assets.calendly.com/assets/external/widget.js" async defer></script>
             </>
           )}
         </div>

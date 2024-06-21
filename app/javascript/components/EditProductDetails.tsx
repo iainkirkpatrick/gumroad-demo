@@ -166,7 +166,7 @@ function Tier ({
             <textarea
               name="tier[description]"
               className="py-2 px-4 border border-black rounded-md"
-              placeholder={productType === 'coffee' ? "Let your customer know how much this tier means to you!" : "Tell your customer what they get with this tier."}
+              placeholder={productType === 'coffee' ? "Let your customer know what this tier means to you!" : "Tell your customer what they get with this tier."}
               value={tier.description}
               onChange={(e) => updateTier({ description: e.target.value })}
             />

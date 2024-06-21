@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Cal, { getCalApi } from "@calcom/embed-react";
 
+import { useToast } from '../hooks/useToast';
+
+import { validateCallLink } from '../utils/validateCallLink'
+
 interface CallsWidgetProps {
   product: any
   updateProduct: (details: any) => void;
@@ -10,38 +14,40 @@ export function CallsWidget ({
   product,
   updateProduct
 }: CallsWidgetProps) {
-  const [calendlyMeetingLink, setCalendlyMeetingLink] = useState(product.call_link || '')
+  const [callLink, setCallLink] = useState(product.call_link || '')
   const [meetingLinkUrl, setMeetingLinkUrl] = useState(null)
-  const [shouldLoadCalendly, setShouldLoadCalendly] = useState(!!product.call_link)
+  const [shouldLoadCallEmbed, setShouldLoadCallEmbed] = useState(!!product.call_link)
+
+  const { addToast } = useToast()
 
   // handle potentially invalid urls as user types etc
   useEffect(() => {
-    if (calendlyMeetingLink) {
+    if (callLink) {
       try {
-        const link = new URL(calendlyMeetingLink)
+        const link = new URL(callLink)
         setMeetingLinkUrl(link)
       } catch (error) {
         setMeetingLinkUrl(null)
       }
     }
-  }, [calendlyMeetingLink])
+  }, [callLink])
 
   useEffect(() => {
-    if (meetingLinkUrl && meetingLinkUrl.host === 'cal.com' && shouldLoadCalendly) {
+    if (meetingLinkUrl && meetingLinkUrl.host === 'cal.com' && shouldLoadCallEmbed) {
       async function loadCal () {
         const cal = await getCalApi({});
         cal("ui", {"styles":{"branding":{"brandColor":"#000000"}},"hideEventTypeDetails":false,"layout":"month_view"});
       }
       loadCal()
     }
-	}, [meetingLinkUrl, shouldLoadCalendly])
+	}, [meetingLinkUrl, shouldLoadCallEmbed])
 
-  if (shouldLoadCalendly) {
+  if (shouldLoadCallEmbed) {
     return (
       <div className='relative grow border border-black rounded-md'>
         <button
           className='py-2 px-4 absolute top-2 right-2 flex items-center gap-2 border border-black rounded-md bg-black text-white z-10'
-          onClick={() => setShouldLoadCalendly(false)}
+          onClick={() => setShouldLoadCallEmbed(false)}
         >
           Edit
           <span className="icon-pencil"></span>
@@ -57,7 +63,7 @@ export function CallsWidget ({
           <>
             <iframe
               id="iframe-calendar"
-              src={calendlyMeetingLink}
+              src={callLink}
               width="100%"
               height="900px"
               frameBorder="0"
@@ -70,23 +76,30 @@ export function CallsWidget ({
   } else {
     return (
       <div className="p-4 flex flex-col gap-1 border border-black rounded-md">
-        <label className="text-sm">i.e. https://calendly.com/iain-oxlc/test-gumroad-meeting</label>
+        <label className="text-sm">Add your calendar link - e.g. https://calendly.com/iain-oxlc/test-gumroad-meeting</label>
         <form className="flex items-center gap-2">
           <input
             name="product[call_link]"
             className='p-3 w-full border border-black rounded-md'
             placeholder='Enter Calendly or Cal.com meeting link'
-            value={calendlyMeetingLink}
-            onChange={(e) => setCalendlyMeetingLink(e.target.value)}
+            value={callLink}
+            onChange={(e) => setCallLink(e.target.value)}
           />
           <button
             data-testid="button-addCalendar"
             className='py-3 min-w-48 bg-black text-white p-2 rounded-md'
-            onClick={() => {
-              updateProduct({
-                call_link: calendlyMeetingLink,
-              })
-              setShouldLoadCalendly(true)
+            onClick={(e) => {
+              e.preventDefault()
+              try {
+                validateCallLink(callLink)
+
+                updateProduct({
+                  call_link: callLink,
+                })
+                setShouldLoadCallEmbed(true)
+              } catch (error) {
+                addToast(error.message)
+              }
             }}
           >
             Add calendar

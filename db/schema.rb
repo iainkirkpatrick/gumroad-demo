@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_11_045638) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_20_075217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,13 +39,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_11_045638) do
     t.string "price_range"
     t.string "price_currency_type"
     t.string "rich_content"
-    t.string "call_link"
-    t.string "thanks_message"
     t.boolean "is_physical"
-    t.boolean "is_recurring_billing"
     t.boolean "is_published"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "call_link"
+    t.string "thanks_message"
   end
 
   create_table "purchases", force: :cascade do |t|
