@@ -6,7 +6,7 @@ Deployed at [https://gumroad-demo.com](https://gumroad-demo.com).
 
 ## overview
 
-As well as writing a scope of changes for implementing roadmap features from the [latest Gumroad board meeting](https://www.youtube.com/watch?v=CNes_Qfo0gw), I wanted to actually build them out within a demo "shell" of Gumroad. The idea of the shell is that it looks and functions roughly the same as production Gumroad for what's necessary to show off the roadmap features (without being pixel-perfect), in order to give a sense of what using these features might feel like. Actual purchasing of products is fake but should resemble a flow similar to the real Gumroad.
+As well as writing a scope of changes for implementing roadmap features from the [latest Gumroad board meeting](https://www.youtube.com/watch?v=CNes_Qfo0gw), I wanted to actually build them out within a demo "shell" of Gumroad. The idea of the shell is that it looks and functions roughly the same as production Gumroad for necessary flows to show off the roadmap features (without being pixel-perfect), in order to give a sense of what using these features might feel like. Actual purchasing of products is fake but should resemble a flow similar to the real Gumroad.
 
 In general, I've tried to implement simple changes with minimal differences in Gumroad data structures and UI in order to achieve the feature functionality.
 
@@ -78,3 +78,4 @@ The thinking for each feature:
 - hosted on [Railway](https://railway.app/)
 - unit tests with minitest, e2e tests with [Playwright](https://playwright.dev/)
 - CI / CD using Github Actions
+- [Caddy](https://caddyserver.com/) for local development with correct demo subdomain
