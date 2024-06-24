@@ -22,16 +22,16 @@ export default function NavMobile ({
       </button>
     </nav>
     {isOpen && (
-      <div className="fixed top-0 left-0 w-full h-full bg-black text-white">
+      <div className="mt-16 fixed top-0 left-0 w-full h-full bg-black text-white">
         <section className="py-6 flex flex-col">
           <a className="px-6 py-4 flex items-center border-t" href="/dashboard" title="Home">
             <span
-              class="mr-2 inline-block h-6 w-6 icon-shop-window-fill"
+              class="mr-4 inline-block h-6 w-6 icon-shop-window-fill"
             ></span>
             Home
           </a>
           <a className="px-6 py-4 flex items-center border-t border-b border-slate-100" href="/products" title="Products">
-            <span className="icon icon-archive-fill"></span>
+            <span className="mr-4 inline-block h-6 w-6 icon-archive-fill"></span>
             Products
           </a>
         </section>
