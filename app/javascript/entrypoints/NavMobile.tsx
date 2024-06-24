@@ -10,7 +10,7 @@ export default function NavMobile ({
 
   return (
     <>
-    <nav className="lg:hidden fixed top-0 left-0 p-4 flex items-center justify-between w-full z-50 bg-black text-white">
+    <nav className="lg:hidden fixed top-0 left-0 p-4 flex items-center justify-between w-full bg-black text-white">
       <a className="" href="/">
         <span className="logo-g h-8 w-8"></span>
       </a>
@@ -22,11 +22,11 @@ export default function NavMobile ({
       </button>
     </nav>
     {isOpen && (
-      <div className="mt-16 fixed top-0 left-0 w-full h-full bg-black text-white">
+      <div className="mt-16 fixed top-0 left-0 w-full h-full bg-black text-white z-50">
         <section className="py-6 flex flex-col">
           <a className="px-6 py-4 flex items-center border-t" href="/dashboard" title="Home">
             <span
-              class="mr-4 inline-block h-6 w-6 icon-shop-window-fill"
+              className="mr-4 inline-block h-6 w-6 icon-shop-window-fill"
             ></span>
             Home
           </a>

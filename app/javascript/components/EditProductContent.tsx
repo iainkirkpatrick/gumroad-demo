@@ -83,7 +83,7 @@ function Navbar ({
 
   return (
     <div className='p-2 flex flex-wrap items-center justify-between gap-2 w-full border-b border-t border-black z-10'>
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center gap-1">
         <button className="flex flex-col items-center justify-center w-8 h-8">
           <span className="icon-bold"></span>
         </button>
@@ -211,7 +211,7 @@ function EditorWrapper ({
 
   return (
     <EditorContent
-      className="flex w-full grow"
+      className="flex w-full grow min-h-24"
       editor={editor}
     />
   )
