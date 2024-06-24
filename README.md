@@ -20,8 +20,6 @@ The thinking for each feature:
     - considered implementing a different "thanks" message per tier, but think it's simpler with a single message (creators can use the tier description for per-tier information)
   - user can change the selected tier in-cart as per membership
   - user can remove the coffee product from the cart
-  - UI / UX:
-    - similar to the UI of a "bundle" product to differentiate it from other products, but with a customisable "thanks" message from the creator (as per above)
 
 - Commissions
   - concept is that customers can pay a part of a product's cost up-front, and then discuss details with the creator as to the completion of the rest of the product
@@ -45,6 +43,17 @@ The thinking for each feature:
     - (no migrations necessary)
   - Calls:
     - add a "call_link" (string) field to Products
+- UI / UX:
+  - Coffee:
+    - in cart, similar to the UI of a "bundle" product to differentiate it from other products, but rendering a customisable "thanks" message from the creator (as per above)
+    - button to remove coffee product from cart, as per other products
+    - otherwise functions similarly to a regular product, i.e. has content if the creator wishes to add some
+  - Commissions:
+    - no unique UI / UX over-and-above a standard product
+  - Calls:
+    - add a "call link" input and submit button above the standard product content, in which the creator can add the Calendly or Cal.com meeting link they want customers to be able to book with
+    - show the Calendly / Cal.com widget via iframe to the creator inside the content editing page
+    - show the Calendly / Cal.com widget via iframe to the customer along with any other product content once they've purchased it
 - Notable code implementation / changes:
   - Coffee:
     - always add a Coffee product, if one exists for the creator, to the customer cart when they add a different product - [carts_controller.rb](./app/controllers/carts_controller.rb) (update)
@@ -59,6 +68,7 @@ The thinking for each feature:
 - Coffee
   - percentage-based pricing as an option? i.e. 10% of the total cart cost? 
   - should there be a limit of a single coffee product per creator? This would simplify some logic in terms of automatically adding it to a cart, and it's hard to imagine good reasons why creators would need more than one if they can add additional tiers to their single coffee product.
+  - could further allow creators to choose the "default" tier of a Coffee product that is selected when it's automatically added to a cart 
 
 - Commissions
   - will customers feel comfortable paying up-front before any kind of discussion with the creator? do they need some additional reassurance about the ability to ask for a refund if they aren't happy with the process post-purchase? Getting the balance right between customer satisfaction and creator happiness (and avoiding chargebacks) seems pretty important.
@@ -74,7 +84,7 @@ The thinking for each feature:
 
 ## implementation details
 
-- rails + react (specifically, [Vite Ruby](https://vite-ruby.netlify.app/))
+- rails / react / TS (specifically, [Vite Ruby](https://vite-ruby.netlify.app/))
 - hosted on [Railway](https://railway.app/)
 - unit tests with minitest, e2e tests with [Playwright](https://playwright.dev/)
 - CI / CD using Github Actions
