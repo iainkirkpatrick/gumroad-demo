@@ -36,7 +36,7 @@ export default function EditProductContent ({
             <textarea
               placeholder="Want to leave a written review?"
             />
-            <button className="py-4 px-4 bg-black text-white rounded-md">Post review</button>
+            <button className="py-4 px-4 bg-neutral-400 text-white rounded-md hover:cursor-not-allowed">Post review</button>
           </div>
         </div>
         <div className='flex flex-col gap-4 w-full grow'>

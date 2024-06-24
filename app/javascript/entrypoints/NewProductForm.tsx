@@ -73,31 +73,31 @@ function NewProductForm() {
             title='Course or tutorial'
             content="Sell a single lesson or teach a whole cohort of students."
             isSelected={productType === 'course'}
-            className='line-through'
+            className='line-through text-neutral-400'
           />
           <ProductButton
             title='E-book'
             content="Sell a single lesson or teach a whole cohort of students."
             isSelected={productType === 'ebook'}
-            className='line-through'
+            className='line-through text-neutral-400'
           />
           <ProductButton
             title='Membership'
             content="Start a membership business around your fans."
             isSelected={productType === 'membership'}
-            className='line-through'
+            className='line-through text-neutral-400'
           />
           <ProductButton
             title='Physical good'
             content="Sell anything that requires shipping something."
             isSelected={productType === 'physical'}
-            className='line-through'
+            className='line-through text-neutral-400'
           />
           <ProductButton
             title='Bundle'
             content="Sell two or more existing products for a new price"
             isSelected={productType === 'bundle'}
-            className='line-through'
+            className='line-through text-neutral-400'
           />
         </div>
       </div>
