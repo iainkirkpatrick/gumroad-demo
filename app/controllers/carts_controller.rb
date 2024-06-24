@@ -17,7 +17,8 @@ class CartsController < ApplicationController
     product_id = Product.find_by(public_id: product_public_id).id
 
     if add_product && add_product != 'false'
-      @cart.cart_items.create(product_id: product_id, variant_id: cart_params[:variant_id])
+      variant_id = Variant.find_by(public_id: cart_params[:variant_id])&.id
+      @cart.cart_items.create(product_id: product_id, variant_id: variant_id)
 
       # COFFEE: if a coffee product is published, add that coffee product to the cart if not already present
       # add the first variant

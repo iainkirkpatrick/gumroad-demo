@@ -15,7 +15,7 @@ export default function AddToCartForm ({
   product,
   cart
 }: AddToCartFormProps) {
-  const [editableCart, setEditableCart] = useState(cart);
+  const [editableCart, setEditableCart] = useState<CartT>(cart);
 
   const [csrfToken] = useCSRF();
 
@@ -32,7 +32,7 @@ export default function AddToCartForm ({
           product_public_id: editableCart.product_public_id || product.public_id,
           add_product: true,
           redirect_after_update: true,
-          ...((editableCart.variant_id || product.tiers?.length) ? { variant_id: editableCart.variant_id || product.tiers?.[0].public_id } : {})
+          ...((editableCart.variant_public_id || product.tiers?.length) ? { variant_public_id: editableCart.variant_public_id || product.tiers?.[0].public_id } : {})
         }
       })
     })
@@ -47,7 +47,7 @@ export default function AddToCartForm ({
   // if product has tiers / variants, select the first one on load
   useEffect(() => {
     if (product.tiers && product.tiers.length > 0) {
-      setEditableCart({ ...editableCart, variant_id: product.tiers[0].public_id });
+      setEditableCart({ ...editableCart, variant_public_id: product.tiers[0].public_id });
     }
   }, [])
 
@@ -57,8 +57,8 @@ export default function AddToCartForm ({
       {product.tiers && product.tiers.map((tier) => (
         <li key={tier.public_id} className="w-full">
           <button
-            className={`p-4 flex flex-col items-start gap-2 w-full border border-black rounded-md ${editableCart.variant_id === tier.public_id ? 'bg-gray-200 shadow-md' : ''}`}
-            onClick={() => setEditableCart({ ...editableCart, variant_id: tier.public_id })}
+            className={`p-4 flex flex-col items-start gap-2 w-full border border-black rounded-md ${editableCart.variant_public_id === tier.public_id ? 'bg-gray-200 shadow-md' : ''}`}
+            onClick={() => setEditableCart({ ...editableCart, variant_public_id: tier.public_id })}
           >
             <p className='text-sm'>${tier.price}</p>
             <p className='font-bold'>{tier.name}</p>
