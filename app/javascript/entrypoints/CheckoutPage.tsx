@@ -194,7 +194,7 @@ function CartItem ({
                 >Configure</button>
                 {isConfigureOpen && (
                   <div
-                    className='p-4 absolute top-full flex flex-col gap-4 min-w-96 border border-black rounded-md bg-white shadow-md z-10'
+                    className='p-4 absolute top-full right-0 left-auto lg:right-auto lg:left-0 flex flex-col gap-4 min-w-72 lg:min-w-96 border border-black rounded-md bg-white shadow-md z-10'
                   >
                     {cartItem.product.variants.map(variant => (
                       <button
