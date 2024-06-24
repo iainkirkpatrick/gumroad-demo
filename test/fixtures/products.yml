@@ -1,9 +1,3 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
 one:
   name: 'Test Product'
   public_id: '123456'
@@ -14,10 +8,18 @@ one:
   updated_at: <%= Time.now %>
 
 two:
-  name: 'Example Product'
+  name: 'Coffee Product'
   public_id: '654321'
+  native_type: 'coffee'
+  description: 'Coffee Product Description'
+  created_at: <%= Time.now %>
+  updated_at: <%= Time.now %>
+
+three:
+  name: 'Calls Product'
+  public_id: '123457'
   native_type: 'calls'
-  price_range: 1500
-  description: 'Example Product Description'
+  price_range: 2000
+  description: 'Calls Product Description'
   created_at: <%= Time.now %>
   updated_at: <%= Time.now %>

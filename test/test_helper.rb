@@ -13,3 +13,6 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+# disable forgery protection for tests
+ApplicationController.allow_forgery_protection = false

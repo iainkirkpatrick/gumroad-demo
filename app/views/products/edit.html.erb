@@ -3,7 +3,7 @@
 <% end %>
 
 
-<div id="edit-product-page-data" data-product="<%= json_escape(@product.to_product_with_tiers.to_json) %>"></div>
+<div id="edit-product-page-data" data-product="<%= json_escape(@product.to_json) %>"></div>
 <div
   class="flex flex-col w-full h-full"
   id="edit-product-form-react"

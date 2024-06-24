@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_20_075217) do
   end
 
   create_table "carts", force: :cascade do |t|
+    t.string "public_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

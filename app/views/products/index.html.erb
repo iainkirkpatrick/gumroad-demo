@@ -40,28 +40,28 @@
             <tr class="py-4 lg:p-0 flex flex-col lg:table-row gap-4 lg:gap-0 bg-white border border-black rounded-md">
               <td class="px-4 lg:p-4 flex flex-col">
                 <p class="lg:hidden text-sm">Name</p>
-                <a class="font-bold" href="/products/<%= product.public_id %>/edit">
-                  <%= product.name %>
+                <a class="font-bold" href="/products/<%= product[:public_id] %>/edit">
+                  <%= product[:name] %>
                 </a>
                 <a
                   class="text-sm underline"
                   target="_blank"
-                  href="<%= subdomain_url('test-user', "/l/#{product.public_id}") %>"
+                  href="<%= subdomain_url('test-user', "/l/#{product[:public_id]}") %>"
                 >
-                  <%= subdomain_url('test-user', "/l/#{product.public_id}") %>
+                  <%= subdomain_url('test-user', "/l/#{product[:public_id]}") %>
                 </a>
               </td>
               <td class="px-4 lg:p-0">
                 <p class="lg:hidden text-sm">Price</p>
-                $<%= if product.variants.any?
-                      product.variants.first.price
+                $<%= if product[:tiers]&.any?
+                      product[:tiers].first[:price]
                     else
-                      product.price_range
+                      product[:price_range]
                     end %>
               </td>
               <td class="px-4 lg:p-0">
                 <p class="lg:hidden text-sm">Published</p>
-                <% if product.is_published %>
+                <% if product[:is_published] %>
                   Published
                 <% else %>
                   Unpublished

@@ -2,7 +2,7 @@ require "test_helper"
 
 class CartTest < ActiveSupport::TestCase
   def setup
-    @cart = Cart.create
+    @cart = Cart.create(public_id: 'test-cart')
     @product = products(:one)
     @cart_item = @cart.cart_items.create(product: @product)
   end

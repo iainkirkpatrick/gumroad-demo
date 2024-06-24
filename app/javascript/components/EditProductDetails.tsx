@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
+import { ProductT } from '../types/Product'
+import { TierT } from '../types/Tier';
+
 interface EditProductDetailsProps {
-  product: any
-  updateProduct: (details: any) => void;
+  product: ProductT
+  updateProduct: (details: Partial<ProductT>) => void;
 }
 
 export default function EditProductDetails ({
   product,
   updateProduct
 }: EditProductDetailsProps) {
-  console.log({product})
-
   return (
     <div className="flex w-full h-full border-t border-black">
       <form className="py-6 lg:py-12 px-4 lg:px-16 flex flex-col gap-12 w-full lg:w-2/3 border-r border-black">
@@ -71,12 +72,12 @@ export default function EditProductDetails ({
           <section className='pt-12 flex flex-col gap-4 border-t-black border-t-2'>
             <h2 className="text-2xl">Tiers</h2>
             <ul className="flex flex-col gap-4">
-              {product.tiers && product.tiers.map((tier: any) => (
+              {product.tiers && product.tiers.map((tier) => (
                 <li key={tier.public_id}>
                   <Tier
                     productType={product.native_type}
                     tier={tier}
-                    updateTier={(updatedTier: any) => updateProduct({ tiers: product.tiers.map((t: any) => t.public_id === tier.public_id ? { ...t, ...updatedTier } : t) })}
+                    updateTier={(updatedTier: Partial<TierT>) => updateProduct({ tiers: product.tiers?.map((t) => t.public_id === tier.public_id ? { ...t, ...updatedTier } : t) })}
                   />
                 </li>
               ))}
@@ -101,8 +102,8 @@ export default function EditProductDetails ({
 
 interface TierProps {
   productType: "coffee" | "commissions"
-  tier: any
-  updateTier: (details: any) => void;
+  tier: TierT
+  updateTier: (details: Partial<TierT>) => void;
 }
 
 function Tier ({

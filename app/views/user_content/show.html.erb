@@ -13,7 +13,7 @@
     </div>
   </div>
   
-  <div id="view-product-content-data" data-product="<%= json_escape(@product.to_product_with_tiers.to_json) %>" class="order-1 lg:order-none"></div>
+  <div id="view-product-content-data" data-product="<%= json_escape(@product.to_json) %>" class="order-1 lg:order-none"></div>
   <div
     id="view-product-content-react"
     class="w-full"

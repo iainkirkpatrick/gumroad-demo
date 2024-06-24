@@ -9,8 +9,7 @@ class Product < ApplicationRecord
   has_many :variants, dependent: :destroy
 
   enum native_type: { digital: 0, course: 1, ebook: 2, membership: 3, physical: 4, bundle: 5, coffee: 6, commissions: 7, calls: 8 }
-
-
+  
   def rich_content=(value)
     if value.nil?
       super('{}')
@@ -26,13 +25,6 @@ class Product < ApplicationRecord
     raw_content.present? ? JSON.parse(raw_content) : {}
   end
 
-
-  def to_product_with_tiers
-    product_json = self.as_json(include: :variants)
-    product_json['tiers'] = product_json['variants']
-    product_json.delete('variants')
-    product_json
-  end
 
   private
 

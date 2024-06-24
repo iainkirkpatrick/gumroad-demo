@@ -9,13 +9,14 @@ class CartsController < ApplicationController
   def update
     # demo: find the first cart record that is shared by all demo users
     @cart = Cart.first
+
     product_public_id = cart_params[:product_public_id]
     add_product = cart_params[:add_product]
     redirect_after_update = cart_params[:redirect_after_update]
 
     product_id = Product.find_by(public_id: product_public_id).id
 
-    if add_product
+    if add_product && add_product != 'false'
       @cart.cart_items.create(product_id: product_id, variant_id: cart_params[:variant_id])
 
       # COFFEE: if a coffee product is published, add that coffee product to the cart if not already present
@@ -28,7 +29,7 @@ class CartsController < ApplicationController
       @cart.cart_items.find_by(product_id: product_id).destroy
     end
 
-    if redirect_after_update
+    if redirect_after_update && redirect_after_update != 'false'
       port = ":#{request.port}" unless Rails.env.production? || Rails.env.staging?
       root_url = "#{request.protocol}#{root_domain}#{port}/checkout"
       render json: { redirect_url: root_url }, status: :ok

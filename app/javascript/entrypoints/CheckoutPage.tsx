@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 
+import { CartT } from '../types/Cart';
+
 import { useCSRF } from '../hooks/useCSRF';
 
 interface CheckoutPageProps {
-  cart: any;
+  cart: CartT;
 }
 
 function CheckoutPage({
@@ -16,7 +18,7 @@ function CheckoutPage({
   const [csrfToken] = useCSRF();
 
   const handleRemoveItem = useCallback((productPublicId) => {
-    return fetch(`/carts/1`, {
+    return fetch(`/carts/${cart.public_id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

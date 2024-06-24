@@ -4,18 +4,21 @@ class ProductsController < ApplicationController
 
   def index
     @products_by_category = Product.includes(:variants).all.group_by { |product| categorise_native_type(product.native_type) }
+    @products_by_category.each do |category, products|
+      @products_by_category[category] = products.map { |product| ProductSerializer.new(product).as_json }
+    end
   end
-
 
   def edit
     @product = Product.includes(:variants).find_by!(public_id: params[:public_id])
+    @product = ProductSerializer.new(@product).as_json
   end
 
   def update
     @product = Product.find_by!(public_id: params[:public_id])
     if @product.update(update_product_params)
       update_variants
-      render json: @product, include: :variants, status: :ok
+      render json: ProductSerializer.new(@product).as_json, status: :ok
     else
       render json: @product.errors, status: :unprocessable_entity
     end
@@ -44,6 +47,8 @@ class ProductsController < ApplicationController
     }
     # demo: find the first cart record (or create one) that is shared by all demo users
     @cart = Cart.first_or_create
+
+    @product = ProductSerializer.new(@product).as_json
   end
 
   private

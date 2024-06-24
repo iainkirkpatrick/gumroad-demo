@@ -15,12 +15,12 @@ class ProductTest < ActiveSupport::TestCase
     assert_raises(ArgumentError) { @product.native_type = 'not-a-type' }
   end
 
-  test 'should include variants as tiers in JSON representation' do
+  test 'should include variants as tiers in serialization' do
     @product.save
     @product.variants.create!(name: 'Variant 1', public_id: 'var123')
-    product_json = @product.to_product_with_tiers
-    assert_includes product_json, 'tiers'
-    assert_not_includes product_json, 'variants'
+    product_json = ProductSerializer.new(@product).as_json
+    assert_includes product_json.keys.map(&:to_s), 'tiers'
+    assert_not_includes product_json.keys.map(&:to_s), 'variants'
   end
 
   test 'rich_content setter should store string values in db as string' do

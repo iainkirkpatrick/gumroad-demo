@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { createRoot } from 'react-dom/client'
 import pick from 'lodash/pick'
 
+import { ProductT } from '../types/Product';
+
 import EditProductDetails from '../components/EditProductDetails';
 import EditProductContent from '../components/EditProductContent';
 import EditProductShare from '../components/EditProductShare';
@@ -12,7 +14,7 @@ import { toProductWithTiers } from '../utils/toProductWithTiers';
 import { ToastProvider, useToast } from '../hooks/useToast';
 
 interface EditProductPageProps {
-  product: any;
+  product: ProductT;
 }
 
 function EditProductPage({

@@ -4,8 +4,10 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Cal, { getCalApi } from "@calcom/embed-react";
 
+import { ProductT } from '../types/Product';
+
 interface ViewProductContentProps {
-  product: any
+  product: ProductT
 }
 
 export default function ViewProductContent ({

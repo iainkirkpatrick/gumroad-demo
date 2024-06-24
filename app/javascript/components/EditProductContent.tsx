@@ -1,21 +1,24 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 
+import { ProductT } from '../types/Product'
+import { TierT } from '../types/Tier'
+
 import { CallsWidget } from './CallsWidget'
 
 interface EditProductContentProps {
-  product: any;
-  updateProduct: (details: any) => void;
+  product: ProductT;
+  updateProduct: (details: Partial<ProductT>) => void;
 }
 
 export default function EditProductContent ({
   product,
   updateProduct
 }: EditProductContentProps) {
-  const [selectedTierId, setSelectedTierId] = useState(product.tiers && product.tiers.length > 0 && product.tiers[0].id)
-  const selectedTier = product.tiers.find((tier: any) => tier.id === selectedTierId)
+  const [selectedTierId, setSelectedTierId] = useState(product.tiers && product.tiers.length > 0 && product.tiers[0].public_id)
+  const selectedTier = product.tiers?.find((tier) => tier.public_id === selectedTierId)
 
   return (
     <div className="flex flex-col grow w-full bg-white border-t border-black">
@@ -49,7 +52,7 @@ export default function EditProductContent ({
             updateContent={(newContent: JSONContent) => {
               if (selectedTier) {
                 updateProduct({
-                  tiers: product.tiers.map((tier: any) => tier.id === selectedTier.id ? { ...tier, rich_content: newContent } : tier)
+                  tiers: product.tiers?.map((tier) => tier.public_id === selectedTier.public_id ? { ...tier, rich_content: newContent } : tier)
                 })
               } else {
                 updateProduct({
@@ -66,8 +69,8 @@ export default function EditProductContent ({
 
 
 interface NavbarProps {
-  product: any
-  selectedTier: any
+  product: ProductT;
+  selectedTier: TierT | undefined
   setSelectedTierId: (id: string) => void
 }
 
@@ -143,12 +146,12 @@ function Navbar ({
           </button>
           {isTierSelectorOpen && (
             <ul className='p-4 absolute top-full right-auto left-0 lg:right-0 lg:left-auto flex flex-col gap-4 min-w-48 border border-black rounded-md bg-white shadow-md'>
-              {product.tiers.map(tier => (
-                <li key={tier.id} className="w-full">
+              {product.tiers?.map(tier => (
+                <li key={tier.public_id} className="w-full">
                   <button
-                    className={`p-4 w-full border border-black rounded-md ${selectedTier.id === tier.id ? 'bg-gray-200 shadow-md' : ''}`}
+                    className={`p-4 w-full border border-black rounded-md ${selectedTier.public_id === tier.public_id ? 'bg-gray-200 shadow-md' : ''}`}
                     onClick={() => {
-                      setSelectedTierId(tier.id)
+                      setSelectedTierId(tier.public_id)
                       setIsTierSelectorOpen(false)
                     }}
                   >
@@ -167,7 +170,7 @@ function Navbar ({
 // wrapper required so that correct product / tier content is updated when selection changes
 interface EditorWrapperProps {
   placeholder: string
-  content: string
+  content: JSONContent | undefined
   updateContent: (content: JSONContent) => void
 }
 
@@ -196,7 +199,7 @@ function EditorWrapper ({
   // N.B. we need to re-establish the update event listener when content changes (i.e. selected tier changes) - otherwise tiptap continues to update the previous content
   useEffect(() => {
     if (editor) {
-      editor.commands.setContent(content)
+      editor.commands.setContent(content || '')
       const onUpdate = () => updateContent(editor.getJSON())
       editor.on('update', onUpdate)
 

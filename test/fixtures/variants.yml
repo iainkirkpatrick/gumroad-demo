@@ -1,11 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+# variants for product two, which is coffee
 one:
-  product: one
-  public_id: 'var123'
-  name: MyString
+  product: two
+  public_id: 'var321'
+  name: Coffee Tier One
+  price: 5
 
 two:
   product: two
-  public_id: 'var321'
-  name: MyString
+  public_id: 'var456'
+  name: Coffee Tier Two
+  price: 20

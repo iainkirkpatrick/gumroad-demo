@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Cal, { getCalApi } from "@calcom/embed-react";
 
+import { ProductT } from '../types/Product';
+
 import { useToast } from '../hooks/useToast';
 
 import { validateCallLink } from '../utils/validateCallLink'
 
 interface CallsWidgetProps {
-  product: any
-  updateProduct: (details: any) => void;
+  product: ProductT
+  updateProduct: (details: Partial<ProductT>) => void;
 }
 
 export function CallsWidget ({

@@ -71,3 +71,5 @@ gem "tailwindcss-rails", "~> 2.6"
 gem "vite_rails"
 
 gem "pg"
+
+gem "active_model_serializers"
