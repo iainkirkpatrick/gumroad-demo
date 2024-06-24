@@ -92,7 +92,7 @@ function EditProductPage({
                   onClick={() => {
                     handleSave()
                     .then((res) => {
-                      window.location.hash = '#content';
+                      addToast('Product saved.')
                     })
                     .catch(err => {
                       addToast(err.message)
@@ -107,7 +107,7 @@ function EditProductPage({
                 onClick={() => {
                   handleSave()
                   .then((res) => {
-                    addToast('Product saved.')
+                    window.location.hash = '#content';
                   })
                   .catch(err => {
                     addToast(err.message)
