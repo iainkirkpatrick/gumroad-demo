@@ -6,6 +6,4 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
-console.log('iiiii')
-
 export { application }
