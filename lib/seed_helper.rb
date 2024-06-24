@@ -1,7 +1,7 @@
 module SeedHelper
   def self.create_products_and_variants
     # create a product of each kind
-    Product.create!(native_type: "digital", name: "Digital Product", price_range: '10', rich_content: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Content for this digital product."}]}]}', is_published: true)
+    Product.create!(native_type: "digital", name: "Digital Product", description: 'This is a digital product.', price_range: '10', rich_content: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Content for this digital product."}]}]}', is_published: true)
     
     coffee = Product.create!(native_type: "coffee", name: "Coffee Product", description: 'This is a coffee product.', rich_content: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Thank you for supporting my work!"}]}]}', thanks_message: 'Thanks for supporting my work!', is_published: true)
     
