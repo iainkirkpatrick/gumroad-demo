@@ -25,7 +25,7 @@ function EditProductPage({
   const [activePane, setActivePane] = useState(window.location.hash || '#');
   
   const [csrfToken] = useCSRF();
-  const { addToast, toasts } = useToast()
+  const { addToast } = useToast()
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -107,7 +107,7 @@ function EditProductPage({
                 onClick={() => {
                   handleSave()
                   .then((res) => {
-                    window.location.hash = '#content';
+                    addToast('Product saved.')
                   })
                   .catch(err => {
                     addToast(err.message)
